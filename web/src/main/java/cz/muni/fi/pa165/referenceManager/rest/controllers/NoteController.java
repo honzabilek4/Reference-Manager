@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.referenceManager.rest.controllers;
 import cz.muni.fi.pa165.referenceManager.dto.NoteCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
 import cz.muni.fi.pa165.referenceManager.dto.NoteUpdateDTO;
-import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
 import cz.muni.fi.pa165.referenceManager.facade.NoteFacade;
 import cz.muni.fi.pa165.referenceManager.rest.ApiUris;
 import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceAlreadyExistingException;

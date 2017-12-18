@@ -64,6 +64,5 @@
         <module>referenceManager-service</module>
         <module>referenceManager-sampleData</module>
         <module>web</module>
-        <!--<module>referenceManager-react</module>-->
     </modules>
 </project>
