@@ -22,10 +22,12 @@
     "semantic-ui-react": "^0.77.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js --env=jsdom",
+    "eject": "node scripts/eject.js",
+
+    "start_dev": "react-scripts start"
   },
   "devDependencies": {
     "redux-devtools": "^3.4.1",

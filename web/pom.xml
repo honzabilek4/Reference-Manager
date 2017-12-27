@@ -102,7 +102,7 @@
                                     "install", so unless you need to run some other yarn command,
                                     you can remove this whole <configuration> section.
                                     -->
-                                    <arguments>run start</arguments>
+                                    <arguments>run start_dev</arguments>
                                 </configuration>
                             </execution>
                         </executions>
