@@ -13,6 +13,16 @@ const rest = reduxApi({
             }
         }
     },
+    references: {
+        url: `references/`,
+        transformer: transformers.array,
+        // base endpoint options `fetch(url, options)`
+        options: {
+            headers: {
+                "Accept": "application/json",
+            }
+        }
+    },
     tag: {
         url: `tags/:id`,
         crud: true

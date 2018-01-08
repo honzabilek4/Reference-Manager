@@ -17,9 +17,9 @@ const ReferenceInsertContainer = ({children, headerText, submitButtonText, onSub
 );
 
 // This sets the initial values in the edit form
-const ReferenceEditContainer = ({children, reference, headerText, submitButtonText, onSubmit}) => (
+const ReferenceEditContainer = ({children, reference, tags, headerText, submitButtonText, onSubmit}) => (
     <ReferenceEditForm reference={reference}
-                       tags={reference.tags}
+                       tags={tags}
                        initialValues={{
                            title: reference.title,
                            authors: reference.authors,
