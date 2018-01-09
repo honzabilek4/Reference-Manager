@@ -25,7 +25,7 @@ const styles = {
     },
 };
 
-const ReferenceCard = ({reference, onEdit, onDelete, onSubmit}) => (
+const ReferenceCard = ({reference, tags, allTags, onEdit, onDelete, onSubmit}) => (
     <Card>
         <Card.Content style={styles.cardContent}>
             <Checkbox style={styles.checkbox}/>
@@ -36,12 +36,13 @@ const ReferenceCard = ({reference, onEdit, onDelete, onSubmit}) => (
                     <ReferenceCardListItem label='Venue:' icon='home' content={reference.venue}/>
                     <ReferenceCardListItem label='Pages:' icon='book'
                                            content={`${reference.pagesStart}-${reference.pagesEnd}`}/>
-                    <ReferenceCardListTagItem tags={reference.tags}/>
+                    <ReferenceCardListTagItem tags={tags}/>
                 </List>
             </Card.Description>
             <Card.Content style={styles.cardExtra} extra>
                 <div className='ui two buttons'>
                     <ReferenceEdit reference={reference}
+                                   tags={allTags}
                                    onSubmit={onEdit}
                                    headerText='Edit reference'>
                         Edit
