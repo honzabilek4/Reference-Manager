@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.referenceManager.dao;
 
 import cz.muni.fi.pa165.referenceManager.entity.Note;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -23,7 +24,9 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     public Note update(Note note) {
-        return em.merge(note);
+        Session session = (Session) em.getDelegate();
+        session.update(note);
+        return note;
     }
 
     @Override

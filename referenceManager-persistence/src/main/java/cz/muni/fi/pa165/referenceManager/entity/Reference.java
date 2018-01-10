@@ -26,15 +26,24 @@ public class Reference {
 
     @NotEmpty
     @ElementCollection
-    private List<String> authors = new ArrayList<String>();
+    private List<String> authors = new ArrayList<>();
 
     private String venue;
 
     private Integer pagesStart;
     private Integer pagesEnd;
 
-    @OneToMany
-    private Set<Note> notes = new HashSet<Note>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="REFERENCE_ID")
+    private Set<Note> notes = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "Reference_Tag",
+        inverseJoinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
+        joinColumns = @JoinColumn(name = "REFERENCE_ID", nullable = false)
+    )
+    private Set<Tag> tags = new HashSet<>();
 
     public Reference() {}
 
@@ -96,6 +105,10 @@ public class Reference {
 
     public Set<Note> getNotes() {
         return notes;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
     }
 
     @Override

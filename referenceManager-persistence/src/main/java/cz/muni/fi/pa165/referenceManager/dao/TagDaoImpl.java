@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.referenceManager.dao;
 
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,7 +23,9 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Tag update(Tag t) {
-        return em.merge(t);
+        Session session = (Session) em.getDelegate();
+        session.update(t);
+        return t;
     }
 
     @Override

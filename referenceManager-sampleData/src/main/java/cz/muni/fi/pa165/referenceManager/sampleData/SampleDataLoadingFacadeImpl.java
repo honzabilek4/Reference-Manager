@@ -79,8 +79,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         userAddTags(adam, school);
         userAddTags(anna, freeTime);
 
-//        userAddSharedTags(kaja, freeTime);
-//        userAddSharedTags(anna, school);
+        userAddSharedTags(kaja, freeTime);
+        userAddSharedTags(anna, school);
         log.info("References, tags and shared tags added to users.");
     }
 

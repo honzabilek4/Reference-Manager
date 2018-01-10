@@ -32,15 +32,14 @@ public class User {
     @NotNull
     private String passwordHash;
 
-    @OneToMany
-    @JoinTable(name = "USER_TAGS")
+    @OneToMany(mappedBy = "user")
     private Set<Tag> tags = new HashSet<>();
 
-    @OneToMany
-    @JoinTable(name = "USER_SHARED_TAGS")
+    @OneToMany(mappedBy = "sharedUser")
     private Set<Tag> sharedTags = new HashSet<>();
 
     @OneToMany
+    @JoinColumn(name = "USER_ID")
     private Set<Reference> references = new HashSet<>();
 
     public User() {

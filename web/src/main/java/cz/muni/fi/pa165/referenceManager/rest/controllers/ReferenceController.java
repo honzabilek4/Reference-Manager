@@ -50,7 +50,7 @@ public class ReferenceController {
         try {
             return referenceFacade.getReferenceById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
@@ -69,10 +69,10 @@ public class ReferenceController {
             referenceFacade.deleteReference(id);
         } catch (IllegalArgumentException ex) {
             logger.error("reference " + id + " not found");
-            throw new ResourceNotFoundException("reference " + id + " not found");
+            throw new ResourceNotFoundException("reference " + id + " not found", ex);
         } catch (Throwable ex) {
             logger.error("cannot delete reference " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Unable to delete non existing item", ex);
         }
     }
 
@@ -92,7 +92,7 @@ public class ReferenceController {
         try {
             return referenceFacade.createReference(reference);
         } catch (Exception ex) {
-            throw new ResourceAlreadyExistingException();
+            throw new ResourceAlreadyExistingException(ex);
         }
     }
 
@@ -115,7 +115,7 @@ public class ReferenceController {
             referenceFacade.updateReference(reference);
             return referenceFacade.getReferenceById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 

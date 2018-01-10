@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.referenceManager.dao;
 
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -23,7 +24,9 @@ public class ReferenceDaoImpl implements ReferenceDao {
 
     @Override
     public Reference update(Reference r) {
-        return em.merge(r);
+        Session session = (Session) em.getDelegate();
+        session.update(r);
+        return r;
     }
 
     @Override

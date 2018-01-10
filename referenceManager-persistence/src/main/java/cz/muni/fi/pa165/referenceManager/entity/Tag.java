@@ -22,13 +22,27 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
         name = "Reference_Tag",
-        joinColumns = { @JoinColumn(name = "TAG_ID") },
-        inverseJoinColumns = { @JoinColumn(name = "REFERENCE_ID") }
+        joinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
+        inverseJoinColumns = @JoinColumn(name = "REFERENCE_ID", nullable = false)
     )
     private Set<Reference> references = new HashSet<>();
+
+    @ManyToOne
+    @JoinTable(
+        name = "USER_TAGS",
+        inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+    private User user;
+
+    @ManyToOne
+    @JoinTable(
+        name = "USER_SHARED_TAGS",
+        inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+    private User sharedUser;
 
     public Tag() {}
 
@@ -66,6 +80,14 @@ public class Tag {
 
     public void removeReference(Reference reference) {
         references.remove(reference);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public User getSharedUser() {
+        return sharedUser;
     }
 
     @Override

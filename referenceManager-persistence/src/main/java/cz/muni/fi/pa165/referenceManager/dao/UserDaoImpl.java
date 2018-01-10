@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.referenceManager.dao;
 
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,9 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User update(User u) {
-        return em.merge(u);
+        Session session = (Session) em.getDelegate();
+        session.update(u);
+        return u;
     }
 
     @Override

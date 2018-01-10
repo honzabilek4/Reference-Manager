@@ -50,7 +50,7 @@ public class NoteController {
         try {
             return noteFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
@@ -69,10 +69,10 @@ public class NoteController {
             noteFacade.removeNote(id);
         } catch (IllegalArgumentException ex) {
             logger.error("note " + id + " not found");
-            throw new ResourceNotFoundException("note " + id + " not found");
+            throw new ResourceNotFoundException("note " + id + " not found", ex);
         } catch (Throwable ex) {
             logger.error("cannot delete note " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Unable to delete non existing item", ex);
         }
     }
 
@@ -91,7 +91,7 @@ public class NoteController {
         try {
             return noteFacade.createNote(note);
         } catch (Exception ex) {
-            throw new ResourceAlreadyExistingException();
+            throw new ResourceAlreadyExistingException(ex);
         }
     }
 
@@ -112,7 +112,7 @@ public class NoteController {
             noteFacade.changeNoteText(note, note.getText());
             return noteFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 

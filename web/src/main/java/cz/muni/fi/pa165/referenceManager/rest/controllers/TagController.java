@@ -48,7 +48,7 @@ public class TagController {
         try {
             return tagFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
@@ -67,10 +67,10 @@ public class TagController {
             tagFacade.removeTag(id);
         } catch (IllegalArgumentException ex) {
             logger.error("tag " + id + " not found");
-            throw new ResourceNotFoundException("tag " + id + " not found");
+            throw new ResourceNotFoundException("tag " + id + " not found", ex);
         } catch (Throwable ex) {
             logger.error("cannot delete tag " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Unable to delete non existing item", ex);
 
         }
     }
@@ -90,7 +90,7 @@ public class TagController {
         try {
             return tagFacade.createTag(tag);
         } catch (Exception ex) {
-            throw new ResourceAlreadyExistingException();
+            throw new ResourceAlreadyExistingException(ex);
         }
     }
 
@@ -111,7 +111,7 @@ public class TagController {
             tagFacade.updateTagName(tag, tag.getName());
             return tagFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
