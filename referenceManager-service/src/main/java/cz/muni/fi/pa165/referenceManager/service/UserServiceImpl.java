@@ -91,30 +91,24 @@ public class UserServiceImpl implements UserService {
     public void removeTag(Long userId, Long tagId) {
         User user = userDao.findById(userId);
         Tag tag = tagDao.findById(tagId);
-        cleanUpSharedTags(tag);
         user.removeTag(tag);
         userDao.update(user);
     }
 
-    private void cleanUpSharedTags(Tag tag) {
-        for (User user : tag.getSharedUsers()) {
-            unshareTag(user.getId(), tag.getId());
-        }
-    }
 
     @Override
     public void shareTag(Long userId, Long tagId) {
         User user = userDao.findById(userId);
         Tag tag = tagDao.findById(tagId);
-        tag.addUser(user);
-        tagDao.update(tag);
+        user.addSharedTag(tag);
+        userDao.update(user);
     }
 
     @Override
     public void unshareTag(Long userId, Long tagId) {
         User user = userDao.findById(userId);
         Tag tag = tagDao.findById(tagId);
-        tag.removeUser(user);
+        user.removeSharedTag(tag);
         tagDao.update(tag);
     }
 

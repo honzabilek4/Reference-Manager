@@ -30,14 +30,6 @@ public class Tag {
     )
     private Set<Reference> references = new HashSet<>();
 
-    @ManyToMany()
-    @JoinTable(
-        name = "User_Tag",
-        joinColumns = { @JoinColumn(name = "TAG_ID") },
-        inverseJoinColumns = { @JoinColumn(name = "USER_ID") }
-    )
-    private Set<User> users = new HashSet<>();
-
     public Tag() {}
 
     public Tag(Long id) {
@@ -68,24 +60,12 @@ public class Tag {
         this.references = references;
     }
 
-    public Set<User> getSharedUsers() {
-        return users;
-    }
-
     public void addReference(Reference reference) {
         references.add(reference);
     }
 
     public void removeReference(Reference reference) {
         references.remove(reference);
-    }
-
-    public void addUser(User user) {
-        users.add(user);
-    }
-
-    public void removeUser(User user) {
-        users.remove(user);
     }
 
     @Override
