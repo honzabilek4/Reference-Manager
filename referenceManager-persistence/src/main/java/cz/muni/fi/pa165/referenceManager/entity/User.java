@@ -32,10 +32,10 @@ public class User {
     @NotNull
     private String passwordHash;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "users")
     private Set<Tag> tags = new HashSet<>();
 
-    @ManyToMany
+    @OneToMany(mappedBy = "owner")
     private Set<Reference> references = new HashSet<>();
 
     public User() {}
@@ -105,26 +105,17 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        if (object == null || !(object instanceof User)) {
-            return false;
-        }
-        User user = (User) object;
-        return Objects.equals(email, user.getEmail());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return email != null ? email.equals(user.email) : user.email == null;
     }
 
     @Override
     public int hashCode() {
-        final int primeNumber = 17;
-        int resultHash = 1;
-        resultHash = primeNumber * resultHash + email.hashCode();
-        resultHash = primeNumber * resultHash + (name == null ? 0 : name.hashCode());
-        return resultHash;
+        return email != null ? email.hashCode() : 0;
     }
-
-
-
 }

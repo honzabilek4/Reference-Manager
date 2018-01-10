@@ -1,19 +1,14 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
-import cz.muni.fi.pa165.referenceManager.dto.ReferenceDTO;
-import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
 import cz.muni.fi.pa165.referenceManager.dto.UserDTO;
 import cz.muni.fi.pa165.referenceManager.dto.UserLoginDTO;
-import cz.muni.fi.pa165.referenceManager.facade.UserFacade;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.UserService;
-import cz.muni.fi.pa165.referenceManager.entity.Reference;
-import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Transactional
@@ -21,10 +16,10 @@ import java.util.Collection;
 public class UserFacadeImpl implements UserFacade {
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     @Inject
-    MappingService mappingService;
+    private MappingService mappingService;
 
     @Override
     public UserDTO findUserById(Long id) {

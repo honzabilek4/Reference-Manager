@@ -45,12 +45,12 @@ public class ReferenceController {
      * @return reference with given id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ReferenceDTO getReference(@PathVariable("id") Long id) throws Exception {
+    public final ReferenceDTO getReference(@PathVariable("id") Long id) {
         logger.debug("rest getReference({})", id);
         try {
             return referenceFacade.getReferenceById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
@@ -63,16 +63,16 @@ public class ReferenceController {
      * @throws ResourceNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteReference(@PathVariable("id") Long id) throws Exception {
+    public final void deleteReference(@PathVariable("id") Long id) {
         logger.debug("rest deleteReference({})", id);
         try {
             referenceFacade.deleteReference(id);
         } catch (IllegalArgumentException ex) {
             logger.error("reference " + id + " not found");
-            throw new ResourceNotFoundException("reference " + id + " not found");
+            throw new ResourceNotFoundException("reference " + id + " not found", ex);
         } catch (Throwable ex) {
             logger.error("cannot delete reference " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Unable to delete non existing item", ex);
         }
     }
 
@@ -87,12 +87,12 @@ public class ReferenceController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Long createReference(@RequestBody ReferenceCreateDTO reference) throws Exception {
+    public final Long createReference(@RequestBody ReferenceCreateDTO reference) {
         logger.debug("rest createReference()");
         try {
             return referenceFacade.createReference(reference);
         } catch (Exception ex) {
-            throw new ResourceAlreadyExistingException();
+            throw new ResourceAlreadyExistingException(ex);
         }
     }
 
@@ -107,7 +107,7 @@ public class ReferenceController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ReferenceDTO editReference(@PathVariable("id") Long id, @RequestBody ReferenceUpdateDTO reference) throws Exception {
+    public final ReferenceDTO editReference(@PathVariable("id") Long id, @RequestBody ReferenceUpdateDTO reference) {
         logger.debug("rest editReference()");
 
         try {
@@ -115,7 +115,7 @@ public class ReferenceController {
             referenceFacade.updateReference(reference);
             return referenceFacade.getReferenceById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 

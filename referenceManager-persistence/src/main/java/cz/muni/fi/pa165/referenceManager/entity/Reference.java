@@ -3,9 +3,11 @@ package cz.muni.fi.pa165.referenceManager.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -24,9 +26,9 @@ public class Reference {
     @NotNull
     private String title;
 
-    @NotEmpty
+    @NotNull
     @ElementCollection
-    private List<String> authors = new ArrayList<String>();
+    private List<String> authors = new ArrayList<>();
 
     private String venue;
 
@@ -34,7 +36,13 @@ public class Reference {
     private Integer pagesEnd;
 
     @OneToMany
-    private Set<Note> notes = new HashSet<Note>();
+    private Set<Note> notes = new HashSet<>();
+
+    @ManyToOne
+    private User owner;
+
+    @ManyToMany(mappedBy = "references")
+    private Set<Tag> tags = new HashSet<>();
 
     public Reference() {}
 
@@ -98,27 +106,38 @@ public class Reference {
         return notes;
     }
 
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public boolean addTag(Tag t) {
+        return tags.add(t);
+    }
+
+    public boolean removeTag(Tag t) {
+        return tags.remove(t);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Reference)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Reference reference = (Reference) o;
 
-        if (!title.equals(reference.title)) return false;
-        if (!authors.equals(reference.authors)) return false;
-        if (venue != null ? !venue.equals(reference.venue) : reference.venue != null) return false;
-        if (pagesStart != null ? !pagesStart.equals(reference.pagesStart) : reference.pagesStart != null) return false;
-        return pagesEnd != null ? pagesEnd.equals(reference.pagesEnd) : reference.pagesEnd == null;
+        return title != null ? title.equals(reference.title) : reference.title == null;
     }
 
     @Override
     public int hashCode() {
-        int result = title.hashCode();
-        result = 31 * result + authors.hashCode();
-        result = 31 * result + (venue != null ? venue.hashCode() : 0);
-        result = 31 * result + (pagesStart != null ? pagesStart.hashCode() : 0);
-        result = 31 * result + (pagesEnd != null ? pagesEnd.hashCode() : 0);
-        return result;
+        return title != null ? title.hashCode() : 0;
     }
 }

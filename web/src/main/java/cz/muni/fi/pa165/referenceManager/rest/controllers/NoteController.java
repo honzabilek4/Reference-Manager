@@ -45,12 +45,12 @@ public class NoteController {
      * @return note with given id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final NoteDTO getNote(@PathVariable("id") Long id) throws Exception {
+    public final NoteDTO getNote(@PathVariable("id") Long id) {
         logger.debug("rest getNote({})", id);
         try {
             return noteFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
@@ -63,16 +63,16 @@ public class NoteController {
      * @throws ResourceNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteNote(@PathVariable("id") Long id) throws Exception {
+    public final void deleteNote(@PathVariable("id") Long id) {
         logger.debug("rest deleteNote({})", id);
         try {
             noteFacade.removeNote(id);
         } catch (IllegalArgumentException ex) {
             logger.error("note " + id + " not found");
-            throw new ResourceNotFoundException("note " + id + " not found");
+            throw new ResourceNotFoundException("note " + id + " not found", ex);
         } catch (Throwable ex) {
             logger.error("cannot delete note " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Unable to delete non existing item", ex);
         }
     }
 
@@ -86,12 +86,12 @@ public class NoteController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Long createNote(@RequestBody NoteCreateDTO note) throws Exception {
+    public final Long createNote(@RequestBody NoteCreateDTO note) {
         logger.debug("rest createNote(name: {})", note.getText());
         try {
             return noteFacade.createNote(note);
         } catch (Exception ex) {
-            throw new ResourceAlreadyExistingException();
+            throw new ResourceAlreadyExistingException(ex);
         }
     }
 
@@ -104,7 +104,7 @@ public class NoteController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final NoteDTO editNote(@PathVariable("id") Long id, @RequestBody NoteUpdateDTO note) throws Exception {
+    public final NoteDTO editNote(@PathVariable("id") Long id, @RequestBody NoteUpdateDTO note) {
         logger.debug("rest editNote()");
 
         try {
@@ -112,7 +112,7 @@ public class NoteController {
             noteFacade.changeNoteText(note, note.getText());
             return noteFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 

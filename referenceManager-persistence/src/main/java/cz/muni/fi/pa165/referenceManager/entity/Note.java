@@ -37,23 +37,17 @@ public class Note {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        if (object == null || !(object instanceof Note)) {
-            return false;
-        }
-        Note note = (Note) object;
-        return text.equals(note.getText());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Note note = (Note) o;
+
+        return text != null ? text.equals(note.text) : note.text == null;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (text != null ? text.hashCode() : 0);
-        return result;
+        return text != null ? text.hashCode() : 0;
     }
-
 }

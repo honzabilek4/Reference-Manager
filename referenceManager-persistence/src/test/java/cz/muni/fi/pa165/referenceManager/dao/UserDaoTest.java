@@ -1,17 +1,18 @@
 package cz.muni.fi.pa165.referenceManager.dao;
 
 import cz.muni.fi.pa165.referenceManager.config.PersistenceApplicationContext;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.transaction.Transactional;
 import javax.validation.*;
 import java.util.HashSet;
 import java.util.List;
@@ -127,6 +128,27 @@ public class UserDaoTest {
     public void testRemoveUser() {
         User user = testUser();
         em.persist(user);
+        em.detach(user);
+
+        userDao.remove(user);
+
+        List<User> users = em.createQuery("SELECT u FROM User u", User.class).getResultList();
+
+        assertTrue("There should be no persisted users after removal", users.isEmpty());
+    }
+
+    @Test
+    public void testRemoveUserWithTags() {
+        User user = testUser();
+        Tag tag = new Tag();
+        tag.setName("Test tag");
+        em.persist(tag);
+        em.persist(user);
+        user.addTag(tag);
+        tag.addUser(user);
+        em.persist(tag);
+        em.persist(user);
+
         em.detach(user);
 
         userDao.remove(user);
