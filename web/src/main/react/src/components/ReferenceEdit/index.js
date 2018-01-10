@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Modal } from 'semantic-ui-react';
 import { InputField, SelectField } from 'react-semantic-redux-form';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, initialize } from 'redux-form';
 import referencePropType from '../../utils/referencePropTypes';
 import { optionsFromTags } from '../../utils';
 
@@ -36,7 +36,11 @@ const ReferenceEditContainer = ({children, reference, tags, headerText, submitBu
 
 class ReferenceEdit extends React.Component {
     state = {modalOpen: false};
-    handleOpen = () => this.setState({modalOpen: true});
+    handleOpen = () => {
+        const {dispatch, initialValues} = this.props;
+        dispatch(initialize('ReferenceEdit', initialValues));
+        this.setState({modalOpen: true})
+    };
     handleClose = () => this.setState({modalOpen: false});
 
     openModalButton = () => (

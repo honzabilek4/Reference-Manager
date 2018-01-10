@@ -15,14 +15,19 @@ const rest = reduxApi({
         url: `references/:id`,
         crud: true,
         postfetch: [
-            ({data, actions, dispatch, getState, request}) => {
+            ({actions, dispatch}) => {
                 dispatch(actions.references.force());
             }
         ]
     },
     tag: {
         url: `tags/:id`,
-        crud: true
+        crud: true,
+        postfetch: [
+            ({dispatch, actions}) => {
+                dispatch(actions.tags.force());
+            }
+        ]
     }
 });
 
