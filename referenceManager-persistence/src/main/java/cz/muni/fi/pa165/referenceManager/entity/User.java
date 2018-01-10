@@ -33,9 +33,11 @@ public class User {
     private String passwordHash;
 
     @OneToMany
+    @JoinTable(name = "USER_TAGS")
     private Set<Tag> tags = new HashSet<>();
 
     @OneToMany
+    @JoinTable(name = "USER_SHARED_TAGS")
     private Set<Tag> sharedTags = new HashSet<>();
 
     @OneToMany
