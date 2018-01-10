@@ -145,7 +145,7 @@ public class UserDaoTest {
         em.persist(tag);
         em.persist(user);
         user.addTag(tag);
-        tag.addUser(user);
+        //tag.addUser(user);
         em.persist(tag);
         em.persist(user);
 

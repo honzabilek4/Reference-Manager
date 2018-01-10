@@ -1,13 +1,11 @@
 package cz.muni.fi.pa165.referenceManager.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -26,7 +24,7 @@ public class Reference {
     @NotNull
     private String title;
 
-    @NotNull
+    @Size(min = 1)
     @ElementCollection
     private List<String> authors = new ArrayList<>();
 
@@ -35,14 +33,19 @@ public class Reference {
     private Integer pagesStart;
     private Integer pagesEnd;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Note> notes = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "Reference_Tag",
+        inverseJoinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
+        joinColumns = @JoinColumn(name = "REFERENCE_ID", nullable = false)
+    )
+    private Set<Tag> tags = new HashSet<>();
 
     @ManyToOne
     private User owner;
-
-    @ManyToMany(mappedBy = "references")
-    private Set<Tag> tags = new HashSet<>();
 
     public Reference() {}
 
@@ -106,6 +109,10 @@ public class Reference {
         return notes;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
     public void setOwner(User owner) {
         this.owner = owner;
     }
@@ -114,26 +121,14 @@ public class Reference {
         return owner;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public boolean addTag(Tag t) {
-        return tags.add(t);
-    }
-
-    public boolean removeTag(Tag t) {
-        return tags.remove(t);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Reference)) return false;
 
         Reference reference = (Reference) o;
 
-        return title != null ? title.equals(reference.title) : reference.title == null;
+        return title != null ? title.equals(reference.getTitle()) : reference.getTitle() == null;
     }
 
     @Override

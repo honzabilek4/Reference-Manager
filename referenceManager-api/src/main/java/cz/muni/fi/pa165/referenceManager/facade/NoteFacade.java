@@ -11,7 +11,6 @@ import java.util.List;
  * @author Lenka Smitalova
  */
 public interface NoteFacade {
-    Long createNote(NoteDTO note);
 
     Long createNote(NoteCreateDTO noteCreateDTO);
 

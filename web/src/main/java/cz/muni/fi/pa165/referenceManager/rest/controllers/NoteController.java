@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.referenceManager.rest.controllers;
 
 import cz.muni.fi.pa165.referenceManager.dto.NoteCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
-import cz.muni.fi.pa165.referenceManager.dto.NoteUpdateDTO;
 import cz.muni.fi.pa165.referenceManager.facade.NoteFacade;
 import cz.muni.fi.pa165.referenceManager.rest.ApiUris;
 import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceAlreadyExistingException;
@@ -84,10 +83,14 @@ public class NoteController {
      * @param note NoteCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(
+        value = "/create",
+        method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Long createNote(@RequestBody NoteCreateDTO note) {
+    public final Long createNote(@RequestBody NoteCreateDTO note) throws Exception {
         logger.debug("rest createNote(name: {})", note.getText());
+
         try {
             return noteFacade.createNote(note);
         } catch (Exception ex) {
@@ -104,7 +107,7 @@ public class NoteController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final NoteDTO editNote(@PathVariable("id") Long id, @RequestBody NoteUpdateDTO note) {
+    public final NoteDTO editNote(@PathVariable("id") Long id, @RequestBody NoteDTO note) {
         logger.debug("rest editNote()");
 
         try {

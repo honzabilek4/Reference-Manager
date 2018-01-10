@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
+import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +35,6 @@ public class TagFacadeImpl implements TagFacade {
     @Override
     public Long createTag(TagCreateDTO tagCreateDTO) {
         Tag tag = mappingService.mapTo(tagCreateDTO, Tag.class);
-        tagService.create(tag);
-        return tag.getId();
-    }
-
-    @Override
-    public Long createTag(TagDTO tagDTO) {
-        Tag tag = mappingService.mapTo(tagDTO, Tag.class);
         tagService.create(tag);
         return tag.getId();
     }

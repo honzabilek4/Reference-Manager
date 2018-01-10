@@ -28,13 +28,6 @@ public class NoteFacadeImpl implements NoteFacade {
     private MappingService mappingService;
 
     @Override
-    public Long createNote(NoteDTO noteDTO) {
-        Note note = mappingService.mapTo(noteDTO, Note.class);
-        noteService.create(note);
-        return note.getId();
-    }
-
-    @Override
     public Long createNote(NoteCreateDTO noteCreateDTO) {
         Note note = mappingService.mapTo(noteCreateDTO, Note.class);
         noteService.create(note);

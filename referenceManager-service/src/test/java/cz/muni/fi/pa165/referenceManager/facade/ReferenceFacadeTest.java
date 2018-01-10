@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
+import cz.muni.fi.pa165.referenceManager.dto.ReferenceCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.ReferenceDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
@@ -12,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import javax.crypto.spec.RC2ParameterSpec;
 
 public class ReferenceFacadeTest {
     @Mock
@@ -27,7 +30,7 @@ public class ReferenceFacadeTest {
     private NoteDTO noteDTO;
     private Reference reference;
     private Note note;
-
+    private ReferenceCreateDTO referenceCreateDTO;
 
     @Before
     public void beforeTest() {
@@ -35,9 +38,11 @@ public class ReferenceFacadeTest {
         reference = new Reference(9l);
         reference.setTitle("Test reference.");
         referenceDTO = Mockito.mock(ReferenceDTO.class);
+        referenceCreateDTO = Mockito.mock(ReferenceCreateDTO.class);
         noteDTO = Mockito.mock(NoteDTO.class);
         note = new Note(8l);
 
+        Mockito.when(mappingService.mapTo(referenceCreateDTO, Reference.class)).thenReturn(reference);
         Mockito.when(mappingService.mapTo(referenceDTO, Reference.class)).thenReturn(reference);
         Mockito.when(referenceDTO.getId()).thenReturn(reference.getId());
         Mockito.when(mappingService.mapTo(noteDTO, Note.class)).thenReturn(note);
@@ -46,7 +51,7 @@ public class ReferenceFacadeTest {
 
     @Test
     public void testCreateReference() {
-        referenceFacade.createReference(referenceDTO);
+        referenceFacade.createReference(referenceCreateDTO);
         Mockito.verify(referenceService, Mockito.times(1)).createReference(reference);
     }
 

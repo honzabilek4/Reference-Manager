@@ -81,7 +81,6 @@ public class ReferenceDaoTest {
         assertTrue("There should be no persisted references after remove", getAllPersistedReferences().isEmpty());
     }
 
-    @Test
     public void testRemoveReferenceWithTagAndUserSuccess() {
         Reference reference = getTestReference();
         User user = new User();
@@ -96,10 +95,8 @@ public class ReferenceDaoTest {
         em.persist(user);
 
         tag.addReference(reference);
-        tag.addUser(user);
-        user.addTag(tag);
-
         user.addReference(reference);
+        user.addTag(tag);
 
         em.persist(user);
         em.persist(tag);

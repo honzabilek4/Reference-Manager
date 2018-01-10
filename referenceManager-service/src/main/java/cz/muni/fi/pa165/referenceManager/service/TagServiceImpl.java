@@ -1,15 +1,14 @@
 package cz.muni.fi.pa165.referenceManager.service;
 
-import cz.muni.fi.pa165.referenceManager.dao.ReferenceDao;
 import cz.muni.fi.pa165.referenceManager.dao.TagDao;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
+import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.exceptions.ReferenceManagerServiceException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Implementation of TagService interface.
@@ -20,6 +19,9 @@ import java.util.Set;
 public class TagServiceImpl implements TagService {
     @Inject
     private TagDao tagDao;
+
+    @Inject
+    private UserService userService;
 
     @Override
     public void create(Tag tag) {

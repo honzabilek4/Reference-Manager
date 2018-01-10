@@ -1,9 +1,6 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
-import cz.muni.fi.pa165.referenceManager.dto.ReferenceDTO;
-import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
-import cz.muni.fi.pa165.referenceManager.dto.UserDTO;
-import cz.muni.fi.pa165.referenceManager.dto.UserLoginDTO;
+import cz.muni.fi.pa165.referenceManager.dto.*;
 
 import java.util.Collection;
 
@@ -12,7 +9,7 @@ import java.util.Collection;
  */
 public interface UserFacade {
 
-    void registerUser(UserDTO user, String plainPassword);
+    Long registerUser(UserCreateDTO user, String plainPassword);
 
     UserDTO findUserById(Long id);
 

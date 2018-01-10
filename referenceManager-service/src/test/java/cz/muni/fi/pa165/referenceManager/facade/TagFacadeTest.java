@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
+import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
@@ -7,6 +8,7 @@ import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
 import cz.muni.fi.pa165.referenceManager.config.ServiceConfiguration;
+import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -32,12 +34,16 @@ public class TagFacadeTest {
     private ReferenceService referenceService;
 
     @Mock
+    private UserService userService;
+
+    @Mock
     private MappingService mappingService;
 
     @InjectMocks
     private TagFacade tagFacade = new TagFacadeImpl();
 
     private TagDTO tagDTO;
+    private TagCreateDTO tagCreateDTO;
     private Tag tag;
     private Reference reference;
 
@@ -52,7 +58,8 @@ public class TagFacadeTest {
         tag.setReferences(Collections.singleton(reference));
 
         tagDTO = Mockito.mock(TagDTO.class);
-        Mockito.when(mappingService.mapTo(tagDTO, Tag.class)).thenReturn(tag);
+        tagCreateDTO = Mockito.mock(TagCreateDTO.class);
+        Mockito.when(mappingService.mapTo(tagCreateDTO, Tag.class)).thenReturn(tag);
         Mockito.when(tagDTO.getId()).thenReturn(tag.getId());
 
         Mockito.when(tagService.findById(tag.getId())).thenReturn(tag);
@@ -61,7 +68,7 @@ public class TagFacadeTest {
 
     @Test
     public void testCreateTag() {
-        tagFacade.createTag(tagDTO);
+        tagFacade.createTag(tagCreateDTO);
         Mockito.verify(tagService, Mockito.times(1))
             .create(tag);
     }

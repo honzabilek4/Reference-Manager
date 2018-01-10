@@ -30,7 +30,7 @@ public class TagServiceTest {
     private TagDao tagDao;
 
     @Mock
-    private ReferenceDao referenceDao;
+    private UserService userService;
 
     @Autowired
     @InjectMocks

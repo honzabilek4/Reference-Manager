@@ -107,7 +107,7 @@ public class ReferenceController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ReferenceDTO editReference(@PathVariable("id") Long id, @RequestBody ReferenceUpdateDTO reference) {
+    public final ReferenceDTO editReference(@PathVariable("id") Long id, @RequestBody ReferenceDTO reference) {
         logger.debug("rest editReference()");
 
         try {

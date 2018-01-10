@@ -18,6 +18,9 @@ public class Note {
     @Column(nullable = false)
     private String text;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Reference reference;
+
     public Note() {}
 
     public Note(Long id) {
@@ -36,14 +39,21 @@ public class Note {
         this.text = text;
     }
 
+    public Reference getReference() {
+        return reference;
+    }
+
+    public void setReference(Reference reference) {
+        this.reference = reference;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof  Note)) return false;
 
         Note note = (Note) o;
 
-        return text != null ? text.equals(note.text) : note.text == null;
+        return text != null ? text.equals(note.getText()) : note.getText() == null;
     }
 
     @Override
