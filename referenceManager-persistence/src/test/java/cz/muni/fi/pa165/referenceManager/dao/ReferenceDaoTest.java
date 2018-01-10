@@ -2,15 +2,17 @@ package cz.muni.fi.pa165.referenceManager.dao;
 
 import cz.muni.fi.pa165.referenceManager.config.PersistenceApplicationContext;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
+import cz.muni.fi.pa165.referenceManager.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -71,6 +73,56 @@ public class ReferenceDaoTest {
     @Test
     public void testRemoveReferenceSuccess() {
         Reference reference = getTestReference();
+        em.persist(reference);
+        em.detach(reference);
+
+        referenceDao.remove(reference);
+
+        assertTrue("There should be no persisted references after remove", getAllPersistedReferences().isEmpty());
+    }
+
+    @Test
+    public void testRemoveReferenceWithTagAndUserSuccess() {
+        Reference reference = getTestReference();
+        User user = new User();
+        user.setEmail("example@example.com");
+        user.setName("Test name");
+        user.setPasswordHash("1");
+        Tag tag = new Tag();
+        tag.setName("Test tag");
+
+        em.persist(tag);
+        em.persist(reference);
+        em.persist(user);
+
+        tag.addReference(reference);
+        tag.addUser(user);
+        user.addTag(tag);
+
+        user.addReference(reference);
+
+        em.persist(user);
+        em.persist(tag);
+        em.persist(reference);
+        em.detach(reference);
+
+        referenceDao.remove(reference);
+
+        assertTrue("There should be no persisted references after remove", getAllPersistedReferences().isEmpty());
+    }
+
+    @Test
+    public void testRemoveReferenceWithUserSuccess() {
+        Reference reference = getTestReference();
+        User user = new User();
+        user.setEmail("example@example.com");
+        user.setName("Test name");
+        user.setPasswordHash("1");
+        em.persist(reference);
+        em.persist(user);
+
+        user.addReference(reference);
+
         em.persist(reference);
         em.detach(reference);
 

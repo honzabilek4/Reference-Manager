@@ -9,13 +9,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class TagDaoTest {
     private ReferenceDao refDao;
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     private Tag t1;
     private Tag t2;
@@ -54,7 +55,7 @@ public class TagDaoTest {
 
         r2 = new Reference();
         r2.setTitle("Reference 2");
-        r2.setAuthors(Arrays.asList("author3"));
+        r2.setAuthors(Collections.singletonList("author3"));
 
         refDao.create(r1);
         refDao.create(r2);
@@ -138,7 +139,7 @@ public class TagDaoTest {
     @Test
     public void testFindTagByNonExistingId() {
         Assert.assertNull("FindById by non-existing id should return null",
-            tagDao.findById(9031l));
+            tagDao.findById(9031L));
     }
 
     @Test
@@ -149,6 +150,6 @@ public class TagDaoTest {
     }
 
     private List<Tag> getAllPersistedTags() {
-        return em.createQuery("select t from Tag t").getResultList();
+        return em.createQuery("select t from Tag t", Tag.class).getResultList();
     }
  }

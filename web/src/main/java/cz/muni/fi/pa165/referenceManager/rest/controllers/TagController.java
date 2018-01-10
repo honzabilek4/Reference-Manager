@@ -10,7 +10,11 @@ import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceNotFoundExcepti
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -27,6 +31,7 @@ public class TagController {
     /**
      * Returns all tags
      * curl -i -X GET http://localhost:8080/pa165/rest/tags
+     *
      * @return list of tags
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,17 +43,18 @@ public class TagController {
     /**
      * Return one tag with given id
      * curl -i -X GET http://localhost:8080/pa165/rest/tags/{id}
+     *
      * @param id identifier for tag
      * @return tag with given id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final TagDTO getTag(@PathVariable("id") Long id) throws Exception {
+    public final TagDTO getTag(@PathVariable("id") Long id) {
         logger.debug("rest getTag({})", id);
 
         try {
             return tagFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
 
@@ -61,16 +67,16 @@ public class TagController {
      * @throws ResourceNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteTag(@PathVariable("id") Long id) throws Exception {
+    public final void deleteTag(@PathVariable("id") Long id) {
         logger.debug("rest deleteTag({})", id);
         try {
             tagFacade.removeTag(id);
         } catch (IllegalArgumentException ex) {
             logger.error("tag " + id + " not found");
-            throw new ResourceNotFoundException("tag " + id + " not found");
+            throw new ResourceNotFoundException("tag " + id + " not found", ex);
         } catch (Throwable ex) {
             logger.error("cannot delete tag " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Unable to delete non existing item", ex);
 
         }
     }
@@ -85,12 +91,12 @@ public class TagController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Long createTag(@RequestBody TagCreateDTO tag) throws Exception {
+    public final Long createTag(@RequestBody TagCreateDTO tag) {
         logger.debug("rest createTag(name: {})", tag.getName());
         try {
             return tagFacade.createTag(tag);
         } catch (Exception ex) {
-            throw new ResourceAlreadyExistingException();
+            throw new ResourceAlreadyExistingException(ex);
         }
     }
 
@@ -103,7 +109,7 @@ public class TagController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final TagDTO renameTag(@PathVariable("id") Long id, @RequestBody TagUpdateDTO tag) throws Exception {
+    public final TagDTO renameTag(@PathVariable("id") Long id, @RequestBody TagUpdateDTO tag) {
         logger.debug("rest editTag()");
 
         try {
@@ -111,10 +117,9 @@ public class TagController {
             tagFacade.updateTagName(tag, tag.getName());
             return tagFacade.findById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(ex);
         }
     }
-
 
 
 }

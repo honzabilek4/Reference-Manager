@@ -13,17 +13,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 @ContextConfiguration(classes = {ReferenceManagerSampleDataConfiguration.class})
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class SampleDataLoadingFacadeTest extends AbstractJUnit4SpringContextTests {
 
-    final static Logger log = LoggerFactory.getLogger(SampleDataLoadingFacadeTest.class);
+    private final static Logger log = LoggerFactory.getLogger(SampleDataLoadingFacadeTest.class);
 
     @Autowired
     public UserDao userDao;

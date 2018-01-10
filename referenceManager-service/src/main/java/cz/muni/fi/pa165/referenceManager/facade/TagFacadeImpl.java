@@ -2,17 +2,15 @@ package cz.muni.fi.pa165.referenceManager.facade;
 
 import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
-import cz.muni.fi.pa165.referenceManager.dto.TagUpdateDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
-import cz.muni.fi.pa165.referenceManager.facade.TagFacade;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**

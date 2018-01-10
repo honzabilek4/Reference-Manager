@@ -5,16 +5,14 @@ import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.exceptions.ExportException;
 import cz.muni.fi.pa165.referenceManager.exceptions.ImportException;
-import cz.muni.fi.pa165.referenceManager.facade.ImportExportFacade;
-import cz.muni.fi.pa165.referenceManager.facade.TagFacade;
 import cz.muni.fi.pa165.referenceManager.service.ImportExportService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
 import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.io.File;
 
 /**

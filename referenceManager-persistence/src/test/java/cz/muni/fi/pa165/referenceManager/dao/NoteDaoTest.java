@@ -7,11 +7,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.HashSet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -79,7 +79,7 @@ public class NoteDaoTest {
         em.persist(note2);
 
         HashSet<Note> foundNotes = new HashSet<>(noteDao.findAll());
-        HashSet<Note> expectedNotes = new HashSet<>(em.createQuery("select n from Note n").getResultList());
+        HashSet<Note> expectedNotes = new HashSet<>(em.createQuery("select n from Note n", Note.class).getResultList());
         Assert.assertTrue(expectedNotes.equals(foundNotes));
     }
 
