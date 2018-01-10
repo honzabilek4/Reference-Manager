@@ -33,16 +33,10 @@ public class User {
     @NotNull
     private String passwordHash;
 
-    @ManyToMany
-    @JoinTable(
-        name = "USER_TAGS",
-        inverseJoinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
-        joinColumns = @JoinColumn(name = "USER_ID", nullable = false)
-    )
+    @ManyToMany(mappedBy = "users")
     private Set<Tag> tags = new HashSet<>();
 
-    @OneToMany
-    @JoinColumn(name = "USER_ID")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
     private Set<Reference> references = new HashSet<>();
 
     public User() {

@@ -33,7 +33,7 @@ public class Reference {
     private Integer pagesStart;
     private Integer pagesEnd;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "reference")
     private Set<Note> notes = new HashSet<>();
 
     @ManyToMany
@@ -44,7 +44,7 @@ public class Reference {
     )
     private Set<Tag> tags = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
     private User owner;
 
     public Reference() {}
@@ -97,12 +97,12 @@ public class Reference {
         this.pagesEnd = pagesEnd;
     }
 
-    public void addNote(Note note){
-        notes.add(note);
+    public void addTag(Tag tag){
+        tags.add(tag);
     }
 
-    public void removeNote(Note note){
-        notes.remove(note);
+    public void removeTag(Tag tag){
+        tags.remove(tag);
     }
 
     public Set<Note> getNotes() {

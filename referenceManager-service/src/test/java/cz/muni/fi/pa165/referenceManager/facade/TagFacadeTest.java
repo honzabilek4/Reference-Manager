@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
+import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
@@ -45,7 +46,7 @@ public class TagFacadeTest {
     private TagDTO tagDTO;
     private TagCreateDTO tagCreateDTO;
     private Tag tag;
-    private Reference reference;
+    private User user;
 
     @Before
     public void beforeTest() {
@@ -53,9 +54,9 @@ public class TagFacadeTest {
         tag = new Tag(1L);
         tag.setName("Testing tag 1.");
 
-        reference = Mockito.mock(Reference.class);
-        Mockito.when(reference.getId()).thenReturn(2l);
-        tag.setReferences(Collections.singleton(reference));
+        user = Mockito.mock(User.class);
+        Mockito.when(user.getId()).thenReturn(2l);
+        tag.setUsers(Collections.singleton(user));
 
         tagDTO = Mockito.mock(TagDTO.class);
         tagCreateDTO = Mockito.mock(TagCreateDTO.class);
@@ -63,7 +64,7 @@ public class TagFacadeTest {
         Mockito.when(tagDTO.getId()).thenReturn(tag.getId());
 
         Mockito.when(tagService.findById(tag.getId())).thenReturn(tag);
-        Mockito.when(referenceService.findById(reference.getId())).thenReturn(reference);
+        Mockito.when(userService.findUserById(user.getId())).thenReturn(user);
     }
 
     @Test
@@ -103,24 +104,24 @@ public class TagFacadeTest {
     }
 
     @Test
-    public void addReference() {
-        tagFacade.addReference(tag.getId(), reference.getId());
+    public void addUser() {
+        tagFacade.addUser(tag.getId(), user.getId());
         Mockito.verify(tagService, Mockito.times(1))
-            .addReference(tag, reference);
+            .addUser(tag, user);
         Mockito.verify(tagService, Mockito.times(1))
             .findById(tag.getId());
-        Mockito.verify(referenceService, Mockito.times(1))
-            .findById(reference.getId());
+        Mockito.verify(userService, Mockito.times(1))
+            .findUserById(user.getId());
     }
 
     @Test
-    public void removeReference() {
-        tagFacade.removeReference(tag.getId(), reference.getId());
+    public void removeUser() {
+        tagFacade.removeUser(tag.getId(), user.getId());
         Mockito.verify(tagService, Mockito.times(1))
-            .removeReference(tag, reference);
+            .removeUser(tag, user);
         Mockito.verify(tagService, Mockito.times(1))
             .findById(tag.getId());
-        Mockito.verify(referenceService, Mockito.times(1))
-            .findById(reference.getId());
+        Mockito.verify(userService, Mockito.times(1))
+            .findUserById(user.getId());
     }
 }

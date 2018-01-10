@@ -27,7 +27,7 @@ public class TagFacadeImpl implements TagFacade {
     private TagService tagService;
 
     @Inject
-    private ReferenceService referenceService;
+    private UserService userService;
 
     @Autowired
     private MappingService mappingService;
@@ -61,17 +61,17 @@ public class TagFacadeImpl implements TagFacade {
     }
 
     @Override
-    public void addReference(Long tagId, Long referenceId) {
-        tagService.addReference(
+    public void addUser(Long tagId, Long userId) {
+        tagService.addUser(
             tagService.findById(tagId),
-            referenceService.findById(referenceId));
+            userService.findUserById(userId));
     }
 
     @Override
-    public void removeReference(Long tagId, Long referenceId) {
-        tagService.removeReference(
+    public void removeUser(Long tagId, Long userId) {
+        tagService.removeUser(
             tagService.findById(tagId),
-            referenceService.findById(referenceId)
+            userService.findUserById(userId)
         );
     }
 

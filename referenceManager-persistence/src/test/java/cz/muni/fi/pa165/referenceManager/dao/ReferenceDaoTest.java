@@ -110,18 +110,15 @@ public class ReferenceDaoTest {
 
     @Test
     public void testRemoveReferenceWithUserSuccess() {
-        Reference reference = getTestReference();
         User user = new User();
         user.setEmail("example@example.com");
         user.setName("Test name");
         user.setPasswordHash("1");
-        em.persist(reference);
         em.persist(user);
 
-        user.addReference(reference);
-
+        Reference reference = getTestReference();
+        reference.setOwner(user);
         em.persist(reference);
-        em.detach(reference);
 
         referenceDao.remove(reference);
 

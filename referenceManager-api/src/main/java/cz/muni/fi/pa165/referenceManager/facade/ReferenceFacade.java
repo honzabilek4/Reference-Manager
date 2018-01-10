@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.referenceManager.facade;
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
 import cz.muni.fi.pa165.referenceManager.dto.ReferenceCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.ReferenceDTO;
+import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
 
 import java.util.List;
 
@@ -22,7 +23,9 @@ public interface ReferenceFacade {
 
     ReferenceDTO getReferenceById(Long id);
 
-    void addNote(Long referenceId, NoteDTO note);
+    List<NoteDTO> getAllReferenceNotes(Long referenceId);
 
-    void removeNote(Long referenceId, NoteDTO note);
+    void addTag(Long referenceId, TagDTO tagDTO);
+
+    void removeTag(Long referenceId, TagDTO tagDTO);
 }

@@ -41,76 +41,67 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     @Override
     @SuppressWarnings("unused")
     public void loadData() {
-        Note note1 = note("This highly anticipated new edition of the classic," +
-            " Jolt Award-winning work has been thoroughly updated to cover Java SE 5 " +
-            "and Java SE 6 features introduced since the first edition.");
-        Note note2 = note("Best trilogy ever!");
-        Note note3 = note("Bloch explores new design patterns and language idioms, " +
-            "showing you how to make the most of features ranging from generics to enums, " +
-            "annotations to autoboxing.");
-        Note note4 = note("Check other work of Tolkien.");
-        Note note5 = note("This is the 5th note.");
-        Note note6 = note("This is the 6th note.");
-        log.info("Notes loaded.");
-
-        Reference ref1 = reference("Effective Java",
-            Arrays.asList("Joshua Bloch"), "USA", 110, 152,
-            note1, note3);
-        Reference ref2 = reference("Lord of the Rings",
-            Arrays.asList("J. R. R. Tolkien"), "UK", null, null,
-            note2, note4);
-        Reference ref3 = reference("Another title",
-            Arrays.asList("Author1", "Different Author"), "Prague", 34, 67,
-            note5, note6);
-        log.info("References loaded.");
-
-        Tag school = tag("School", ref1, ref3);
-        Tag freeTime = tag("Free time", ref2);
-        log.info("Tags loaded.");
 
         User adam = user("Adam", "adam@user.cz", "adamPassword");
         User kaja = user("Kaja", "kaja@user.cz", "kajaPassword");
         User anna = user("Anna", "anna@user.cz", "annaPassword");
         log.info("Users loaded.");
 
-        userAddReferences(adam, ref1, ref3);
-        userAddReferences(anna, ref2);
+        Tag school = tag("School", adam, anna);
+        Tag freeTime = tag("Free time", anna, kaja);
+        log.info("Tags loaded and added to users.");
 
-        userAddTags(adam, school);
-        userAddTags(anna, freeTime);
+        Reference ref1 = reference("Effective Java",
+            Arrays.asList("Joshua Bloch"), "USA", 110, 152, adam, school);
+        Reference ref2 = reference("Lord of the Rings",
+            Arrays.asList("J. R. R. Tolkien"), "UK", null, null, anna, freeTime);
+        Reference ref3 = reference("The Pilgrimage",
+            Arrays.asList("Paulo Coelho"), "Brazil", 34, 67, adam,  freeTime);
+        log.info("References loaded and added to users.");
 
-        userAddSharedTags(kaja, freeTime);
-        userAddSharedTags(anna, school);
-        log.info("References, tags and shared tags added to users.");
+        Note note1 = note("This highly anticipated new edition of the classic," +
+            " Jolt Award-winning work has been thoroughly updated to cover Java SE 5 " +
+            "and Java SE 6 features introduced since the first edition.", ref1);
+        Note note2 = note("Best trilogy ever!", ref2);
+        Note note3 = note("Bloch explores new design patterns and language idioms, " +
+            "showing you how to make the most of features ranging from generics to enums, " +
+            "annotations to autoboxing.", ref1);
+        Note note4 = note("Check other work of Tolkien.", ref2);
+        Note note5 = note("A recollection of Paulo's experiences as he made his way " +
+            "across northern Spain on a pilgrimage to Santiago de Compostela", ref3);
+        Note note6 = note("First novel written by him.", ref3);
+        log.info("Notes loaded.");
     }
 
-    private Note note(String text) {
+    private Note note(String text, Reference ref) {
         Note note = new Note();
         note.setText(text);
+        note.setReference(ref);
         noteService.create(note);
         return note;
     }
 
     private Reference reference(String title, List<String> authors, String venue,
-                                Integer pagesStart, Integer pagesEnd, Note... notes) {
+                                Integer pagesStart, Integer pagesEnd, User user, Tag... tags) {
         Reference ref = new Reference();
         ref.setTitle(title);
         ref.setAuthors(authors);
         ref.setVenue(venue);
         ref.setPagesStart(pagesStart);
         ref.setPagesEnd(pagesEnd);
-        for (Note note : notes) {
-            ref.addNote(note);
+        ref.setOwner(user);
+        for (Tag tag : tags) {
+            ref.addTag(tag);
         }
         referenceService.createReference(ref);
         return ref;
     }
 
-    private Tag tag(String name, Reference... references){
+    private Tag tag(String name, User... users){
         Tag tag = new Tag();
         tag.setName(name);
-        for (Reference ref : references) {
-            tag.addReference(ref);
+        for (User u : users) {
+            tag.addUser(u);
         }
         tagService.create(tag);
         return tag;

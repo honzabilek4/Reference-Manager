@@ -38,6 +38,9 @@ public class TagServiceImpl implements TagService {
     @Override
     public void remove(Long tagId) {
         Tag tag = findById(tagId);
+        for (Reference ref : tag.getReferences()) {
+            ref.removeTag(tag);
+        }
         tagDao.remove(tag);
     }
 
@@ -52,26 +55,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void addReference(Tag tag, Reference reference) {
-        if (tag.getReferences().contains(reference)) {
-            throw new ReferenceManagerServiceException(
-                "Tag already contains this reference. Tag: " +
-                    tag.getId() + ", reference: " +
-                    reference.getId());
-        }
-        tag.addReference(reference);
-        tagDao.update(tag);
+    public void addUser(Tag tag, User user) {
+        tag.addUser(user);
     }
 
     @Override
-    public void removeReference(Tag tag, Reference reference) {
-        if (!tag.getReferences().contains(reference)) {
-            throw new ReferenceManagerServiceException(
-                "Tag doesn't contain the reference. Tag: " +
-                    tag.getId() + ", reference: " +
-                    reference.getId());
-        }
-        tag.removeReference(reference);
-        tagDao.update(tag);
+    public void removeUser(Tag tag, User user) {
+        tag.removeUser(user);
     }
 }

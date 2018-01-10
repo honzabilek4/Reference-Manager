@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.NoteService;
 import cz.muni.fi.pa165.referenceManager.config.ServiceConfiguration;
+import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -23,6 +24,9 @@ import org.springframework.test.context.ContextConfiguration;
 public class NoteFacadeTest {
     @Mock
     private NoteService noteService;
+
+    @Mock
+    private ReferenceService referenceService;
 
     @Mock
     private MappingService mappingService;

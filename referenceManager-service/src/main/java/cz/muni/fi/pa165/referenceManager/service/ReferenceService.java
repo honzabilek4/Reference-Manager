@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.referenceManager.service;
 
 import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
 
 import java.util.List;
 
@@ -30,18 +31,18 @@ public interface ReferenceService {
     void deleteReference(Long id);
 
     /**
-     * Creates mapping between reference and note
+     * Creates mapping between reference and tag
      * @param r reference to add note
-     * @param note note to be added
+     * @param tag tag to be added
      */
-    void addNote(Reference r, Note note);
+    void addTag(Reference r, Tag tag);
 
     /**
-     * Remove mapping between reference and note
+     * Remove mapping between reference and tag
      * @param r reference having note
-     * @param note note to be removed
+     * @param tag tag to be removed
      */
-    void removeNote(Reference r, Note note);
+    void removeTag(Reference r, Tag tag);
 
     /**
      * Return all stored references in database

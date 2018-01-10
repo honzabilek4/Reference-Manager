@@ -31,7 +31,9 @@ public class NoteController {
      * curl -i -X GET http://localhost:8080/pa165/rest/notes
      * @return list of notes
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final Collection<NoteDTO> getNotes() {
         logger.debug("rest getTags()");
         return noteFacade.findAllNotes();
@@ -43,7 +45,10 @@ public class NoteController {
      * @param id identifier for note
      * @return note with given id
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final NoteDTO getNote(@PathVariable("id") Long id) {
         logger.debug("rest getNote({})", id);
         try {
@@ -61,7 +66,10 @@ public class NoteController {
      * @param id identifier for note
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteNote(@PathVariable("id") Long id) {
         logger.debug("rest deleteNote({})", id);
         try {

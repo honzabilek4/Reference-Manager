@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.referenceManager.dao;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

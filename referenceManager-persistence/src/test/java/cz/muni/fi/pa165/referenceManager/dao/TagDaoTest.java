@@ -94,10 +94,8 @@ public class TagDaoTest {
 
     @Test
     public void testUpdateTag() {
-        Set<Reference> refs = new HashSet<>();
-        refs.add(r1);
-        refs.add(r2);
-        t2.setReferences(refs);
+        r1.addTag(t2);
+        r2.addTag(t2);
 
         tagDao.update(t2);
 

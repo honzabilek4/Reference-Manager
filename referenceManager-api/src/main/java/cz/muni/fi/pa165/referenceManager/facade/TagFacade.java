@@ -22,8 +22,8 @@ public interface TagFacade {
 
     List<TagDTO> findAllTags();
 
-    void addReference(Long tagId, Long referenceId);
+    void addUser(Long tagId, Long userId);
 
-    void removeReference(Long tagId, Long referenceId);
+    void removeUser(Long tagId, Long userId);
 
 }

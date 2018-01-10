@@ -28,6 +28,9 @@ public class ReferenceCreateDTO {
     @Min(1)
     private Integer pagesEnd;
 
+    @NotNull
+    private Long userId;
+
     public List<String> getAuthors() {
         return authors;
     }
@@ -66,6 +69,14 @@ public class ReferenceCreateDTO {
 
     public void setPagesEnd(Integer pagesEnd) {
         this.pagesEnd = pagesEnd;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override

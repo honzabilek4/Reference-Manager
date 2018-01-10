@@ -3,8 +3,10 @@ package cz.muni.fi.pa165.referenceManager.facade;
 import cz.muni.fi.pa165.referenceManager.dto.NoteCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Note;
+import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.NoteService;
+import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +26,17 @@ public class NoteFacadeImpl implements NoteFacade {
     @Inject
     private NoteService noteService;
 
+    @Inject
+    private ReferenceService referenceService;
+
     @Autowired
     private MappingService mappingService;
 
     @Override
     public Long createNote(NoteCreateDTO noteCreateDTO) {
         Note note = mappingService.mapTo(noteCreateDTO, Note.class);
+        Reference reference = referenceService.findById(noteCreateDTO.getReferenceId());
+        note.setReference(reference);
         noteService.create(note);
         return note.getId();
     }

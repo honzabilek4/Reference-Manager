@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.referenceManager.service;
 
 import cz.muni.fi.pa165.referenceManager.dao.ReferenceDao;
-import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class ReferenceServiceTest {
     private Reference reference;
     private Reference reference2;
     private List<Reference> references;
-    private Note note;
+    private Tag tag;
 
     @Mock
     private Reference referenceMock;
@@ -39,8 +39,8 @@ public class ReferenceServiceTest {
         reference2 = new Reference(2l);
         reference2.setTitle("Test reference 2");
 
-        note = new Note(3l);
-        note.setText("Test note");
+        tag = new Tag(3l);
+        tag.setName("Test tag");
 
         Mockito.when(referenceDao.findById(reference.getId())).thenReturn(reference);
         Mockito.when(referenceDao.findById(reference2.getId())).thenReturn(reference2);
@@ -83,14 +83,14 @@ public class ReferenceServiceTest {
 
     @Test
     public void testAddNote(){
-        referenceService.addNote(referenceMock, note);
-        Mockito.verify(referenceMock,Mockito.times(1)).addNote(note);
+        referenceService.addTag(referenceMock, tag);
+        Mockito.verify(referenceMock,Mockito.times(1)).addTag(tag);
     }
 
     @Test
     public void testRemoveNote(){
-        referenceService.removeNote(referenceMock, note);
-        Mockito.verify(referenceMock, Mockito.times(1)).removeNote(note);
+        referenceService.removeTag(referenceMock, tag);
+        Mockito.verify(referenceMock, Mockito.times(1)).removeTag(tag);
     }
 
 }

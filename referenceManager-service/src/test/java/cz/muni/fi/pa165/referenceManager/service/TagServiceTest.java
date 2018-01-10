@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.referenceManager.service;
 
-import cz.muni.fi.pa165.referenceManager.dao.ReferenceDao;
 import cz.muni.fi.pa165.referenceManager.dao.TagDao;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.config.ServiceConfiguration;
+import cz.muni.fi.pa165.referenceManager.entity.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.validation.constraints.Null;
 import java.util.*;
 
 /**
@@ -39,8 +38,8 @@ public class TagServiceTest {
     private Tag tag1;
     private Tag tag2;
 
-    private Reference reference1;
-    private Reference reference2;
+    private User user1;
+    private User user2;
 
     @Before
     public void beforeTest() {
@@ -52,7 +51,7 @@ public class TagServiceTest {
         tag1.setName("This is tag1.");
         tag2.setName("This is tag2.");
 
-        setReferences();
+        setUsers();
 
         Mockito.when(tagDao.findById(1l)).thenReturn(tag1);
         Mockito.when(tagDao.findById(2l)).thenReturn(tag2);
@@ -60,24 +59,26 @@ public class TagServiceTest {
         Mockito.when(tagDao.findAll()).thenReturn(Arrays.asList(tag1, tag2));
     }
 
-    private void setReferences(){
-        reference1 = new Reference(3l);
-        reference2 = new Reference(4l);
+    private void setUsers(){
+        user1 = new User(3l);
+        user2 = new User(4l);
 
-        reference1.setTitle("Reference1");
-        reference1.setAuthors(Arrays.asList("author1"));
+        user1.setEmail("user1@mail.cz");
+        user1.setPasswordHash("user1password");
+        user1.setName("user1");
 
-        reference2.setTitle("Reference2");
-        reference2.setAuthors(Arrays.asList("author2"));
+        user2.setEmail("user2@mail.cz");
+        user2.setPasswordHash("user1password");
+        user2.setName("user2");
 
-        Set<Reference> references1 = new HashSet<>();
-        references1.add(reference1);
-        tag1.setReferences(references1);
+        Set<User> users1 = new HashSet<>();
+        users1.add(user1);
+        tag1.setUsers(users1);
 
-        Set<Reference> references = new HashSet<>();
-        references.add(reference1);
-        references.add(reference2);
-        tag2.setReferences(references);
+        Set<User> users = new HashSet<>();
+        users.add(user1);
+        users.add(user2);
+        tag2.setUsers(users);
     }
 
     @Test
@@ -116,38 +117,32 @@ public class TagServiceTest {
     }
 
     @Test
-    public void testAddReference() {
-        tagService.addReference(tag1, reference2);
-
-        Mockito.verify(tagDao, Mockito.times(1))
-            .update(tag1);
+    public void testAddUser() {
+        tagService.addUser(tag1, user2);
 
         Assert.assertEquals(
             "Tag should contain 2 references",
-            2, tag1.getReferences().size());
+            2, tag1.getUsers().size());
         Assert.assertTrue(
-            "Tag should contain reference1.",
-            tag1.getReferences().contains(reference1));
+            "Tag should contain user1.",
+            tag1.getUsers().contains(user1));
         Assert.assertTrue(
             "Tag should contain added reference.",
-            tag1.getReferences().contains(reference2));
+            tag1.getUsers().contains(user2));
     }
 
     @Test
-    public void testRemoveReference() {
-        tagService.removeReference(tag2, reference1);
-
-        Mockito.verify(tagDao, Mockito.times(1))
-            .update(tag2);
+    public void testRemoveUser() {
+        tagService.removeUser(tag2, user1);
 
         Assert.assertEquals(
             "Tag should contain only 1 reference",
-            1, tag2.getReferences().size());
+            1, tag2.getUsers().size());
         Assert.assertFalse(
             "Tag should not contain removed reference.",
-            tag2.getReferences().contains(reference1));
+            tag2.getUsers().contains(user1));
         Assert.assertTrue(
-            "Tag should contain reference2.",
-            tag2.getReferences().contains(reference2));
+            "Tag should contain user2.",
+            tag2.getUsers().contains(user2));
     }
 }
