@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.referenceManager.rest.controllers;
 
 import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
-import cz.muni.fi.pa165.referenceManager.dto.TagUpdateDTO;
+import cz.muni.fi.pa165.referenceManager.dto.UserDTO;
 import cz.muni.fi.pa165.referenceManager.facade.TagFacade;
 import cz.muni.fi.pa165.referenceManager.rest.ApiUris;
 import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceAlreadyExistingException;
@@ -34,7 +34,9 @@ public class TagController {
      *
      * @return list of tags
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final Collection<TagDTO> getTags() {
         logger.debug("rest getTags()");
         return tagFacade.findAllTags();
@@ -47,7 +49,10 @@ public class TagController {
      * @param id identifier for tag
      * @return tag with given id
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final TagDTO getTag(@PathVariable("id") Long id) {
         logger.debug("rest getTag({})", id);
 
@@ -66,7 +71,10 @@ public class TagController {
      * @param id identifier for tag
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteTag(@PathVariable("id") Long id) {
         logger.debug("rest deleteTag({})", id);
         try {
@@ -89,7 +97,10 @@ public class TagController {
      * @param tag TagCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(
+        value = "/create",
+        method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public final Long createTag(@RequestBody TagCreateDTO tag) {
         logger.debug("rest createTag(name: {})", tag.getName());
@@ -107,9 +118,12 @@ public class TagController {
      *
      * @param id identifier for tag
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.PUT,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final TagDTO renameTag(@PathVariable("id") Long id, @RequestBody TagUpdateDTO tag) {
+    public final TagDTO renameTag(@PathVariable("id") Long id, @RequestBody TagDTO tag) {
         logger.debug("rest editTag()");
 
         try {
@@ -121,5 +135,50 @@ public class TagController {
         }
     }
 
+    /**
+     * Share tag for given user by PUT method
+     *
+     * @param id identifier for tag
+     * @param userId identifier for user
+     */
+    @RequestMapping(
+        value = "/{id}/shareForUser/{userId}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public final TagDTO shareTagForUser(
+        @PathVariable("id") Long id,
+        @PathVariable("userId") Long userId) {
+        logger.debug("rest addTagToReference()");
+
+        try {
+            tagFacade.addUser(id, userId);
+            return tagFacade.findById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException(ex);
+        }
+    }
+
+    /**
+     * Unshare tag for given user by PUT method
+     *
+     * @param id identifier for tag
+     * @param userId identifier for user
+     */
+    @RequestMapping(
+        value = "/{id}/unshareForUser/{userId}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public final TagDTO removeUserFromTag(
+        @PathVariable("id") Long id,
+        @PathVariable("userId") Long userId) {
+        logger.debug("rest removeTagFromReference()");
+
+        try {
+            tagFacade.removeUser(id, userId);
+            return tagFacade.findById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException(ex);
+        }
+    }
 
 }

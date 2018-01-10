@@ -1,6 +1,11 @@
 package cz.muni.fi.pa165.referenceManager.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 /**
  * @author Andrej Staruch
  *
@@ -8,7 +13,11 @@ import java.util.Objects;
  */
 public class TagCreateDTO {
 
+    @NotNull
+    @Size(min = 3, max = 20)
     private String name;
+
+    private Set<ReferenceDTO> referenceDTOSet = new HashSet<>();
 
     public void setName(String name) {
         this.name = name;
@@ -16,6 +25,14 @@ public class TagCreateDTO {
 
     public String getName() {
         return name;
+    }
+
+    public Set<ReferenceDTO> getReferenceDTOSet() {
+        return referenceDTOSet;
+    }
+
+    public void setReferenceDTOSet(Set<ReferenceDTO> referenceDTOSet) {
+        this.referenceDTOSet = referenceDTOSet;
     }
 
     @Override

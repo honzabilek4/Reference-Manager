@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.referenceManager.dao;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -30,13 +31,7 @@ public class ReferenceDaoImpl implements ReferenceDao {
 
     @Override
     public void remove(Reference r) {
-        Reference reference = em.find(Reference.class, r.getId());
-        List<Tag> tags = em.createQuery("select t from Tag t where :reference member of t.references", Tag.class)
-        .setParameter("reference", reference).getResultList();
-        for (Tag tag : tags) {
-            tag.removeReference(reference);
-            em.merge(tag);
-        }
+        Reference reference = em.find(Reference.class,r.getId());
         em.remove(reference);
     }
 

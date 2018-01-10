@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void cleanUpSharedTags(Tag tag) {
-        for (User user : tag.getSharedUsers()) {
+        for (User user : tag.getUsers()) {
             unshareTag(user.getId(), tag.getId());
         }
     }
@@ -106,16 +106,16 @@ public class UserServiceImpl implements UserService {
     public void shareTag(Long userId, Long tagId) {
         User user = userDao.findById(userId);
         Tag tag = tagDao.findById(tagId);
-        tag.addUser(user);
-        tagDao.update(tag);
+        user.addTag(tag);
+        userDao.update(user);
     }
 
     @Override
     public void unshareTag(Long userId, Long tagId) {
         User user = userDao.findById(userId);
         Tag tag = tagDao.findById(tagId);
-        tag.removeUser(user);
-        tagDao.update(tag);
+        user.removeTag(tag);
+        userDao.update(user);
     }
 
     private boolean verifyPassword(String password, String correctPasswordHash) {

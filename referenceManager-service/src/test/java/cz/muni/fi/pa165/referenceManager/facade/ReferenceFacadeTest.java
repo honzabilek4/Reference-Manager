@@ -1,11 +1,13 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
-import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
-import cz.muni.fi.pa165.referenceManager.dto.ReferenceDTO;
+import cz.muni.fi.pa165.referenceManager.dto.*;
 import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
+import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
+import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -20,33 +22,42 @@ public class ReferenceFacadeTest {
     @Mock
     private ReferenceService referenceService;
 
+    @Mock
+    private UserService userService;
+
     @InjectMocks
     private ReferenceFacadeImpl referenceFacade;
 
     private ReferenceDTO referenceDTO;
-    private NoteDTO noteDTO;
+    private TagDTO tagDTO;
     private Reference reference;
-    private Note note;
-
+    private Tag tag;
+    private UserDTO ownerDTO;
+    private User owner;
+    private ReferenceCreateDTO referenceCreateDTO;
 
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
+        ownerDTO = Mockito.mock(UserDTO.class);
+        owner = new User(11l);
         reference = new Reference(9l);
         reference.setTitle("Test reference.");
         referenceDTO = Mockito.mock(ReferenceDTO.class);
-        noteDTO = Mockito.mock(NoteDTO.class);
-        note = new Note(8l);
+        referenceCreateDTO = Mockito.mock(ReferenceCreateDTO.class);
+        tagDTO = Mockito.mock(TagDTO.class);
+        tag = new Tag(8l);
 
+        Mockito.when(mappingService.mapTo(referenceCreateDTO, Reference.class)).thenReturn(reference);
         Mockito.when(mappingService.mapTo(referenceDTO, Reference.class)).thenReturn(reference);
         Mockito.when(referenceDTO.getId()).thenReturn(reference.getId());
-        Mockito.when(mappingService.mapTo(noteDTO, Note.class)).thenReturn(note);
+        Mockito.when(mappingService.mapTo(tagDTO, Tag.class)).thenReturn(tag);
         Mockito.when(referenceService.findById(reference.getId())).thenReturn(reference);
     }
 
     @Test
     public void testCreateReference() {
-        referenceFacade.createReference(referenceDTO);
+        referenceFacade.createReference(referenceCreateDTO);
         Mockito.verify(referenceService, Mockito.times(1)).createReference(reference);
     }
 
@@ -75,15 +86,15 @@ public class ReferenceFacadeTest {
     }
 
     @Test
-    public void testAddNote() {
-        referenceFacade.addNote(referenceDTO.getId(), noteDTO);
-        Mockito.verify(referenceService, Mockito.times(1)).addNote(reference, note);
+    public void testAddTag() {
+        referenceFacade.addTag(referenceDTO.getId(), tagDTO);
+        Mockito.verify(referenceService, Mockito.times(1)).addTag(reference, tag);
     }
 
     @Test
-    public void testRemoveNote() {
-        referenceFacade.removeNote(referenceDTO.getId(), noteDTO);
-        Mockito.verify(referenceService, Mockito.times(1)).removeNote(reference, note);
+    public void testRemoveTag() {
+        referenceFacade.removeTag(referenceDTO.getId(), tagDTO);
+        Mockito.verify(referenceService, Mockito.times(1)).removeTag(reference, tag);
     }
 
 }

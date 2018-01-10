@@ -78,15 +78,15 @@ public class UserServiceTest {
     @Test
     public void testShareTag() {
         userService.shareTag(1L, 1L);
-        Mockito.verify(tag1, Mockito.times(1)).addUser(user1);
-        Mockito.verify(tagDao, Mockito.times(1)).update(tag1);
+        Mockito.verify(user1, Mockito.times(1)).addTag(tag1);
+        Mockito.verify(userDao, Mockito.times(1)).update(user1);
     }
 
     @Test
     public void testUnshareTag() {
         userService.unshareTag(1L, 1L);
-        Mockito.verify(tag1, Mockito.times(1)).removeUser(user1);
-        Mockito.verify(tagDao, Mockito.times(1)).update(tag1);
+        Mockito.verify(user1, Mockito.times(1)).removeTag(tag1);
+        Mockito.verify(userDao, Mockito.times(1)).update(user1);
     }
 
 }

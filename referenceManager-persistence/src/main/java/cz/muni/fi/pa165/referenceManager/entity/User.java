@@ -16,6 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Users_table")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
@@ -23,7 +24,7 @@ public class User {
 
     @Column(unique = true)
     @NotNull
-    @Pattern(regexp=".+@.+\\....?")
+    @Pattern(regexp = ".+@.+\\....?")
     private String email;
 
     @NotNull
@@ -35,10 +36,11 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private Set<Tag> tags = new HashSet<>();
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
     private Set<Reference> references = new HashSet<>();
 
-    public User() {}
+    public User() {
+    }
 
     public User(Long id) {
         this.id = id;
@@ -72,19 +74,19 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public void addReference(Reference reference){
+    public void addReference(Reference reference) {
         references.add(reference);
     }
 
-    public void removeReference(Reference reference){
+    public void removeReference(Reference reference) {
         references.remove(reference);
     }
 
-    public void addTag(Tag tag){
+    public void addTag(Tag tag) {
         tags.add(tag);
     }
 
-    public void removeTag(Tag tag){
+    public void removeTag(Tag tag) {
         tags.remove(tag);
     }
 
@@ -107,11 +109,11 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof User)) return false;
 
         User user = (User) o;
 
-        return email != null ? email.equals(user.email) : user.email == null;
+        return email != null ? email.equals(user.getEmail()) : user.getEmail() == null;
     }
 
     @Override

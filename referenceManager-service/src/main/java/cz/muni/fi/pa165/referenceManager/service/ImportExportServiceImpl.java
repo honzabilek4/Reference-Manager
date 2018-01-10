@@ -138,7 +138,7 @@ public class ImportExportServiceImpl implements ImportExportService {
             Reference reference = parseBibTeXEntry(entry);
             referenceService.createReference(reference);
             userService.addReference(user.getId(), reference.getId());
-            tagService.addReference(tag, reference);
+            referenceService.addTag(reference, tag);
         }
     }
 

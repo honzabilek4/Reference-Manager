@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.referenceManager.rest.controllers;
 
 import cz.muni.fi.pa165.referenceManager.dto.NoteCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
-import cz.muni.fi.pa165.referenceManager.dto.NoteUpdateDTO;
 import cz.muni.fi.pa165.referenceManager.facade.NoteFacade;
 import cz.muni.fi.pa165.referenceManager.rest.ApiUris;
 import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceAlreadyExistingException;
@@ -32,7 +31,9 @@ public class NoteController {
      * curl -i -X GET http://localhost:8080/pa165/rest/notes
      * @return list of notes
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final Collection<NoteDTO> getNotes() {
         logger.debug("rest getTags()");
         return noteFacade.findAllNotes();
@@ -44,7 +45,10 @@ public class NoteController {
      * @param id identifier for note
      * @return note with given id
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final NoteDTO getNote(@PathVariable("id") Long id) {
         logger.debug("rest getNote({})", id);
         try {
@@ -62,7 +66,10 @@ public class NoteController {
      * @param id identifier for note
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteNote(@PathVariable("id") Long id) {
         logger.debug("rest deleteNote({})", id);
         try {
@@ -84,10 +91,14 @@ public class NoteController {
      * @param note NoteCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(
+        value = "/create",
+        method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Long createNote(@RequestBody NoteCreateDTO note) {
+    public final Long createNote(@RequestBody NoteCreateDTO note) throws Exception {
         logger.debug("rest createNote(name: {})", note.getText());
+
         try {
             return noteFacade.createNote(note);
         } catch (Exception ex) {
@@ -104,7 +115,7 @@ public class NoteController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final NoteDTO editNote(@PathVariable("id") Long id, @RequestBody NoteUpdateDTO note) {
+    public final NoteDTO editNote(@PathVariable("id") Long id, @RequestBody NoteDTO note) {
         logger.debug("rest editNote()");
 
         try {

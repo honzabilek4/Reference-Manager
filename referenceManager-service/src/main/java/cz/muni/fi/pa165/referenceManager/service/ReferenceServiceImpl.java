@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.referenceManager.service;
 import cz.muni.fi.pa165.referenceManager.dao.ReferenceDao;
 import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -44,12 +45,12 @@ public class ReferenceServiceImpl implements ReferenceService {
     }
 
     @Override
-    public void addNote(Reference reference, Note note) {
-        reference.addNote(note);
+    public void addTag(Reference reference, Tag tag) {
+        reference.addTag(tag);
     }
 
     @Override
-    public void removeNote(Reference reference, Note note) {
-        reference.removeNote(note);
+    public void removeTag(Reference reference, Tag tag) {
+        reference.removeTag(tag);
     }
 }

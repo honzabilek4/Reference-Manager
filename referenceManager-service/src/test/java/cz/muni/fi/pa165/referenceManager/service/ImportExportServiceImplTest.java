@@ -116,7 +116,7 @@ public class ImportExportServiceImplTest {
 
         for (Reference expectedReference : getTestData()) {
             verify(referenceService, times(1)).createReference(expectedReference);
-            verify(tagService, times(1)).addReference(tag, expectedReference);
+            verify(referenceService, times(1)).addTag(expectedReference, tag);
         }
         verify(userService, times(3)).addReference(null, null);
     }

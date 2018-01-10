@@ -292,7 +292,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+passwordHash: String",
+											"text": "+plainPassword: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -7457,7 +7457,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFfQ7O7syOB5iQ="
 							},
-							"name": "passwordHash",
+							"name": "plainPassword",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,

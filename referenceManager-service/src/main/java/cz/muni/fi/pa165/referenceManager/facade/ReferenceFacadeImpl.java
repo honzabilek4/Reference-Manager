@@ -3,13 +3,14 @@ package cz.muni.fi.pa165.referenceManager.facade;
 
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
 import cz.muni.fi.pa165.referenceManager.dto.ReferenceCreateDTO;
-import cz.muni.fi.pa165.referenceManager.dto.ReferenceUpdateDTO;
-import cz.muni.fi.pa165.referenceManager.facade.ReferenceFacade;
 import cz.muni.fi.pa165.referenceManager.dto.ReferenceDTO;
+import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
+import cz.muni.fi.pa165.referenceManager.entity.Tag;
+import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
-import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
+import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,19 +23,18 @@ public class ReferenceFacadeImpl implements ReferenceFacade {
 
     @Inject
     private MappingService mappingService;
+
     @Inject
     private ReferenceService referenceService;
 
-
-    @Override
-    public void createReference(ReferenceDTO referenceDTO) {
-        Reference reference = mappingService.mapTo(referenceDTO, Reference.class);
-        referenceService.createReference(reference);
-    }
+    @Inject
+    private UserService userService;
 
     @Override
     public Long createReference(ReferenceCreateDTO referenceCreateDTO) {
         Reference reference = mappingService.mapTo(referenceCreateDTO, Reference.class);
+        User user = userService.findUserById(referenceCreateDTO.getUserId());
+        reference.setOwner(user);
         referenceService.createReference(reference);
         return reference.getId();
     }
@@ -42,12 +42,7 @@ public class ReferenceFacadeImpl implements ReferenceFacade {
     @Override
     public void updateReference(ReferenceDTO referenceDTO) {
         Reference reference = mappingService.mapTo(referenceDTO, Reference.class);
-        referenceService.updateReference(reference);
-    }
-
-    @Override
-    public void updateReference(ReferenceUpdateDTO referenceUpdateDTO) {
-        Reference reference = mappingService.mapTo(referenceUpdateDTO, Reference.class);
+        //reference.setOwner(user);
         referenceService.updateReference(reference);
     }
 
@@ -67,16 +62,22 @@ public class ReferenceFacadeImpl implements ReferenceFacade {
     }
 
     @Override
-    public void addNote(Long referenceId, NoteDTO noteDTO) {
+    public void addTag(Long referenceId, TagDTO tagDTO) {
         Reference reference = referenceService.findById(referenceId);
-        Note note = mappingService.mapTo(noteDTO, Note.class);
-        referenceService.addNote(reference,note);
+        Tag tag = mappingService.mapTo(tagDTO, Tag.class);
+        referenceService.addTag(reference,tag);
     }
 
     @Override
-    public void removeNote(Long referenceId, NoteDTO noteDTO) {
+    public void removeTag(Long referenceId, TagDTO tagDTO) {
         Reference reference = referenceService.findById(referenceId);
-        Note note = mappingService.mapTo(noteDTO, Note.class);
-        referenceService.removeNote(reference,note);
+        Tag tag = mappingService.mapTo(tagDTO, Tag.class);
+        referenceService.removeTag(reference,tag);
+    }
+
+    @Override
+    public List<NoteDTO> getAllReferenceNotes(Long referenceId) {
+        Reference reference = referenceService.findById(referenceId);
+        return mappingService.mapTo(reference.getNotes(),NoteDTO.class);
     }
 }

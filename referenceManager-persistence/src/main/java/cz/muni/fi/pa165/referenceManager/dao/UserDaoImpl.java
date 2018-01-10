@@ -31,11 +31,6 @@ public class UserDaoImpl implements UserDao{
     @Override
     public void remove(User u) {
         User managed = em.find(User.class, u.getId());
-        List<Tag> tags = em.createQuery("select t from Tag t where :user member of t.users", Tag.class)
-            .setParameter("user", managed).getResultList();
-        for (Tag tag : tags) {
-            tag.removeUser(managed);
-        }
         em.remove(managed);
     }
 

@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.referenceManager.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -7,7 +8,11 @@ import java.util.Objects;
  */
 public class NoteCreateDTO {
 
+    @NotNull
     private String text;
+
+    @NotNull
+    private Long referenceId;
 
     public String getText() {
         return text;
@@ -17,6 +22,13 @@ public class NoteCreateDTO {
         this.text = text;
     }
 
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
+    }
 
     @Override
     public int hashCode() {
@@ -29,5 +41,12 @@ public class NoteCreateDTO {
         if (!(obj instanceof  NoteCreateDTO)) return false;
         NoteCreateDTO that = (NoteCreateDTO) obj;
         return Objects.equals(text, that.text);
+    }
+
+    @Override
+    public String toString() {
+        return "Note:{" +
+            "text = " + text +
+            "referenceId=" + referenceId + "}";
     }
 }

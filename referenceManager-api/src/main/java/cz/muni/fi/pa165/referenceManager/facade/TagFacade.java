@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.referenceManager.facade;
 
 import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
-import cz.muni.fi.pa165.referenceManager.dto.TagUpdateDTO;
 
 import java.util.List;
 
@@ -15,8 +14,6 @@ public interface TagFacade {
 
     Long createTag(TagCreateDTO tagCreateDTO);
 
-    Long createTag(TagDTO tagDTO);
-
     void updateTagName(TagDTO tagDTO, String newName);
 
     void removeTag(Long tagId);
@@ -25,8 +22,8 @@ public interface TagFacade {
 
     List<TagDTO> findAllTags();
 
-    void addReference(Long tagId, Long referenceId);
+    void addUser(Long tagId, Long userId);
 
-    void removeReference(Long tagId, Long referenceId);
+    void removeUser(Long tagId, Long userId);
 
 }

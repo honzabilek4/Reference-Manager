@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
 import cz.muni.fi.pa165.referenceManager.config.ServiceConfiguration;
+import cz.muni.fi.pa165.referenceManager.dto.UserCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.UserDTO;
 import cz.muni.fi.pa165.referenceManager.dto.UserLoginDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Reference;
@@ -45,6 +46,7 @@ public class UserFacadeTest {
     private UserFacade userFacade = new UserFacadeImpl();
 
     private UserDTO userDTO;
+    private UserCreateDTO userCreateDTO;
     private User user;
     private UserLoginDTO userLoginDTO;
     private Reference reference;
@@ -64,6 +66,7 @@ public class UserFacadeTest {
         user = Mockito.mock(User.class);
         userDTO = Mockito.mock(UserDTO.class);
         userLoginDTO = Mockito.mock(UserLoginDTO.class);
+        userCreateDTO = Mockito.mock(UserCreateDTO.class);
         reference = Mockito.mock(Reference.class);
         tag = Mockito.mock(Tag.class);
 
@@ -71,7 +74,7 @@ public class UserFacadeTest {
 
         Mockito.when(userService.authenticate(Mockito.anyLong(), Mockito.anyString())).
             thenReturn(true);
-        Mockito.when(mappingService.mapTo(userDTO, User.class)).thenReturn(user);
+        Mockito.when(mappingService.mapTo(userCreateDTO, User.class)).thenReturn(user);
         Mockito.when(userFacade.getAllUsers()).thenReturn(getSampleUsers());
         Mockito.when(referenceService.findById(Mockito.anyLong())).thenReturn(reference);
         Mockito.when(tagService.findById(Mockito.anyLong())).thenReturn(tag);
@@ -79,7 +82,7 @@ public class UserFacadeTest {
 
     @Test
     public void testRegisterUser() {
-        userFacade.registerUser(userDTO, "password");
+        userFacade.registerUser(userCreateDTO, "password");
         Mockito.verify(userService, Mockito.times(1))
             .registerUser(user, "password");
     }

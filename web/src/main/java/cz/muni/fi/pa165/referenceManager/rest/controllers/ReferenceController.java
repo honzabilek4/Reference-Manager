@@ -32,7 +32,9 @@ public class ReferenceController {
      * curl -i -X GET http://localhost:8080/pa165/rest/references
      * @return list of references
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final Collection<ReferenceDTO> getReferences() {
         logger.debug("rest getReferences()");
         return referenceFacade.getAllReferences();
@@ -44,11 +46,33 @@ public class ReferenceController {
      * @param id identifier for reference
      * @return reference with given id
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final ReferenceDTO getReference(@PathVariable("id") Long id) {
         logger.debug("rest getReference({})", id);
         try {
             return referenceFacade.getReferenceById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException(ex);
+        }
+    }
+
+    /**
+     * Return one reference with given id
+     * curl -i -X GET http://localhost:8080/pa165/rest/references/{id}
+     * @param id identifier for reference
+     * @return reference with given id
+     */
+    @RequestMapping(
+        value = "/{id}/notes",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public final Collection<NoteDTO> getReferenceNotes(@PathVariable("id") Long id) {
+        logger.debug("rest getReference({})", id);
+        try {
+            return referenceFacade.getAllReferenceNotes(id);
         } catch (Exception ex) {
             throw new ResourceNotFoundException(ex);
         }
@@ -62,7 +86,10 @@ public class ReferenceController {
      * @param id identifier for reference
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteReference(@PathVariable("id") Long id) {
         logger.debug("rest deleteReference({})", id);
         try {
@@ -85,7 +112,10 @@ public class ReferenceController {
      * @param reference ReferenceCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(
+        value = "/create",
+        method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public final Long createReference(@RequestBody ReferenceCreateDTO reference) {
         logger.debug("rest createReference()");
@@ -105,9 +135,12 @@ public class ReferenceController {
      *
      * @param id identifier for reference
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.PUT,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ReferenceDTO editReference(@PathVariable("id") Long id, @RequestBody ReferenceUpdateDTO reference) {
+    public final ReferenceDTO editReference(@PathVariable("id") Long id, @RequestBody ReferenceDTO reference) {
         logger.debug("rest editReference()");
 
         try {
@@ -119,5 +152,48 @@ public class ReferenceController {
         }
     }
 
+    /**
+     * Adds tag to the reference by PUT method
+     *
+     * @param id identifier for reference
+     */
+    @RequestMapping(
+        value = "/{id}/addTag",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public final ReferenceDTO addTagToReference(
+        @PathVariable("id") Long id,
+        @RequestBody TagDTO tagDTO) {
+        logger.debug("rest addTagToReference()");
+
+        try {
+            referenceFacade.addTag(id, tagDTO);
+            return referenceFacade.getReferenceById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException(ex);
+        }
+    }
+
+    /**
+     * Removes tag to the reference by PUT method
+     *
+     * @param id identifier for reference
+     */
+    @RequestMapping(
+        value = "/{id}/removeTag",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public final ReferenceDTO removeTagFromReference(
+        @PathVariable("id") Long id,
+        @RequestBody TagDTO tagDTO) {
+        logger.debug("rest removeTagFromReference()");
+
+        try {
+            referenceFacade.removeTag(id, tagDTO);
+            return referenceFacade.getReferenceById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException(ex);
+        }
+    }
 
 }

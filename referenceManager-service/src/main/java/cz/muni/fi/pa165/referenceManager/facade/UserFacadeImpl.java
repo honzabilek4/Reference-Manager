@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
+import cz.muni.fi.pa165.referenceManager.dto.UserCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.UserDTO;
 import cz.muni.fi.pa165.referenceManager.dto.UserLoginDTO;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
@@ -34,10 +35,10 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void registerUser(UserDTO userDTO, String plainPassword) {
-        User user = mappingService.mapTo(userDTO, User.class);
+    public Long registerUser(UserCreateDTO userCreateDTO, String plainPassword) {
+        User user = mappingService.mapTo(userCreateDTO, User.class);
         userService.registerUser(user, plainPassword);
-        userDTO.setId(user.getId());
+        return user.getId();
     }
 
     @Override

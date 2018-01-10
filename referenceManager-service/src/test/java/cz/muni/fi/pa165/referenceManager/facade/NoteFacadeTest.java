@@ -1,10 +1,12 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
+import cz.muni.fi.pa165.referenceManager.dto.NoteCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.NoteDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Note;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.NoteService;
 import cz.muni.fi.pa165.referenceManager.config.ServiceConfiguration;
+import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -24,11 +26,15 @@ public class NoteFacadeTest {
     private NoteService noteService;
 
     @Mock
+    private ReferenceService referenceService;
+
+    @Mock
     private MappingService mappingService;
 
     @InjectMocks
     private NoteFacade noteFacade = new NoteFacadeImpl();
 
+    private NoteCreateDTO noteCreateDTO;
     private NoteDTO noteDTO;
     private Note note;
 
@@ -39,14 +45,15 @@ public class NoteFacadeTest {
         note.setText("Testing note 1.");
 
         noteDTO = Mockito.mock(NoteDTO.class);
-        Mockito.when(mappingService.mapTo(noteDTO, Note.class)).thenReturn(note);
+        noteCreateDTO = Mockito.mock(NoteCreateDTO.class);
+        Mockito.when(mappingService.mapTo(noteCreateDTO, Note.class)).thenReturn(note);
         Mockito.when(noteDTO.getId()).thenReturn(note.getId());
         Mockito.when(noteDTO.getText()).thenReturn(note.getText());
     }
 
     @Test
     public void testCreateNote() {
-        noteFacade.createNote(noteDTO);
+        noteFacade.createNote(noteCreateDTO);
         Mockito.verify(noteService, Mockito.times(1)).create(note);
     }
 

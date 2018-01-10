@@ -22,19 +22,14 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany()
-    @JoinTable(
-        name = "Reference_Tag",
-        joinColumns = { @JoinColumn(name = "TAG_ID") },
-        inverseJoinColumns = { @JoinColumn(name = "REFERENCE_ID") }
-    )
+    @ManyToMany(mappedBy = "tags")
     private Set<Reference> references = new HashSet<>();
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
-        name = "User_Tag",
-        joinColumns = { @JoinColumn(name = "TAG_ID") },
-        inverseJoinColumns = { @JoinColumn(name = "USER_ID") }
+        name = "USER_TAGS",
+        joinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
+        inverseJoinColumns = @JoinColumn(name = "USER_ID", nullable = false)
     )
     private Set<User> users = new HashSet<>();
 
@@ -68,16 +63,20 @@ public class Tag {
         this.references = references;
     }
 
-    public Set<User> getSharedUsers() {
-        return users;
-    }
-
     public void addReference(Reference reference) {
         references.add(reference);
     }
 
     public void removeReference(Reference reference) {
         references.remove(reference);
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public void addUser(User user) {

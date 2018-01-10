@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.ReferenceService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
+import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class TagFacadeImpl implements TagFacade {
     private TagService tagService;
 
     @Inject
-    private ReferenceService referenceService;
+    private UserService userService;
 
     @Autowired
     private MappingService mappingService;
@@ -34,13 +35,6 @@ public class TagFacadeImpl implements TagFacade {
     @Override
     public Long createTag(TagCreateDTO tagCreateDTO) {
         Tag tag = mappingService.mapTo(tagCreateDTO, Tag.class);
-        tagService.create(tag);
-        return tag.getId();
-    }
-
-    @Override
-    public Long createTag(TagDTO tagDTO) {
-        Tag tag = mappingService.mapTo(tagDTO, Tag.class);
         tagService.create(tag);
         return tag.getId();
     }
@@ -67,17 +61,17 @@ public class TagFacadeImpl implements TagFacade {
     }
 
     @Override
-    public void addReference(Long tagId, Long referenceId) {
-        tagService.addReference(
+    public void addUser(Long tagId, Long userId) {
+        tagService.addUser(
             tagService.findById(tagId),
-            referenceService.findById(referenceId));
+            userService.findUserById(userId));
     }
 
     @Override
-    public void removeReference(Long tagId, Long referenceId) {
-        tagService.removeReference(
+    public void removeUser(Long tagId, Long userId) {
+        tagService.removeUser(
             tagService.findById(tagId),
-            referenceService.findById(referenceId)
+            userService.findUserById(userId)
         );
     }
 

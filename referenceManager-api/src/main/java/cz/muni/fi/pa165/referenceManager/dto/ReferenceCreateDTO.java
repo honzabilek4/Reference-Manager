@@ -1,5 +1,9 @@
 package cz.muni.fi.pa165.referenceManager.dto;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -7,11 +11,25 @@ import java.util.*;
  */
 public class ReferenceCreateDTO {
 
+    @NotNull
+    @Size(min = 1, max = 50)
     private String title;
 
+    @Size(min = 2, max = 50)
     private String venue;
 
+    @NotNull
+    @Size(min = 1)
     private List<String> authors = new ArrayList<>();
+
+    @Min(1)
+    private Integer pagesStart;
+
+    @Min(1)
+    private Integer pagesEnd;
+
+    @NotNull
+    private Long userId;
 
     public List<String> getAuthors() {
         return authors;
@@ -20,10 +38,6 @@ public class ReferenceCreateDTO {
     public void setAuthors(List<String> authors) {
         this.authors = authors;
     }
-
-    private Integer pagesStart;
-
-    private Integer pagesEnd;
 
     public String getTitle() {
         return title;
@@ -55,6 +69,14 @@ public class ReferenceCreateDTO {
 
     public void setPagesEnd(Integer pagesEnd) {
         this.pagesEnd = pagesEnd;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
