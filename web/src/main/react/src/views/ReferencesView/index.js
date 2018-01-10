@@ -13,7 +13,14 @@ class ReferencesView extends Component {
         console.log(`Edited reference with id ${id} and values `, values);
     };
     deleteReference = (id) => () => {
-        console.log(`Deleted reference with id ${id}`);
+        const {dispatch} = this.props;
+        dispatch(rest.actions.reference.delete({id: id}, null, (err, data) => {
+            if (!err) {
+                console.log(`Deleted reference with id ${id}`);
+            } else {
+                console.log(`Could not delete reference with id ${id}`);
+            }
+        }));
     };
     onInsertNewReference = (values) => {
 
