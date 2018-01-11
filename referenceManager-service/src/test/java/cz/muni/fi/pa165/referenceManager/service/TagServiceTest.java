@@ -111,7 +111,8 @@ public class TagServiceTest {
     @Test
     public void testUpdateTagName() {
         String newName = "New tag name";
-        tagService.updateTagName(tag1.getId(), newName);
+        tag1.setName(newName);
+        tagService.updateTag(tag1);
 
         Assert.assertEquals(tag1.getName(), newName);
     }

@@ -1,8 +1,6 @@
 package cz.muni.fi.pa165.referenceManager.rest.controllers;
 
-import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
-import cz.muni.fi.pa165.referenceManager.dto.UserDTO;
 import cz.muni.fi.pa165.referenceManager.facade.TagFacade;
 import cz.muni.fi.pa165.referenceManager.rest.ApiUris;
 import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceAlreadyExistingException;
@@ -102,7 +100,7 @@ public class TagController {
         method = RequestMethod.POST,
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Long createTag(@RequestBody TagCreateDTO tag) {
+    public final Long createTag(@RequestBody TagDTO tag) {
         logger.debug("rest createTag(name: {})", tag.getName());
         try {
             return tagFacade.createTag(tag);
@@ -123,12 +121,12 @@ public class TagController {
         method = RequestMethod.PUT,
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final TagDTO renameTag(@PathVariable("id") Long id, @RequestBody TagDTO tag) {
+    public final TagDTO updateTag(@PathVariable("id") Long id, @RequestBody TagDTO tag) {
         logger.debug("rest editTag()");
 
         try {
             tag.setId(id);
-            tagFacade.updateTagName(tag, tag.getName());
+            tagFacade.updateTag(tag);
             return tagFacade.findById(id);
         } catch (Exception ex) {
             throw new ResourceNotFoundException(ex);

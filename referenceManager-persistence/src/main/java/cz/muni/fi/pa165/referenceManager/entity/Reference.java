@@ -36,12 +36,7 @@ public class Reference {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "reference")
     private Set<Note> notes = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "Reference_Tag",
-        inverseJoinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
-        joinColumns = @JoinColumn(name = "REFERENCE_ID", nullable = false)
-    )
+    @ManyToMany(mappedBy = "references")
     private Set<Tag> tags = new HashSet<>();
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
@@ -123,6 +118,10 @@ public class Reference {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override

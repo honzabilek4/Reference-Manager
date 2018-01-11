@@ -92,6 +92,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         ref.setOwner(user);
         for (Tag tag : tags) {
             ref.addTag(tag);
+            tag.addReference(ref);
         }
         referenceService.createReference(ref);
         return ref;

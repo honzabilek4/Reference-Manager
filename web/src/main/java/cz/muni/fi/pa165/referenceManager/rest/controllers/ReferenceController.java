@@ -153,49 +153,4 @@ public class ReferenceController {
             throw new ResourceNotFoundException(ex);
         }
     }
-
-    /**
-     * Adds tag to the reference by PUT method
-     *
-     * @param id identifier for reference
-     */
-    @RequestMapping(
-        value = "/{id}/addTag",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ReferenceDTO addTagToReference(
-        @PathVariable("id") Long id,
-        @RequestBody TagDTO tagDTO) {
-        logger.debug("rest addTagToReference()");
-
-        try {
-            referenceFacade.addTag(id, tagDTO);
-            return referenceFacade.getReferenceById(id);
-        } catch (Exception ex) {
-            throw new ResourceNotFoundException(ex);
-        }
-    }
-
-    /**
-     * Removes tag to the reference by PUT method
-     *
-     * @param id identifier for reference
-     */
-    @RequestMapping(
-        value = "/{id}/removeTag",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public final ReferenceDTO removeTagFromReference(
-        @PathVariable("id") Long id,
-        @RequestBody TagDTO tagDTO) {
-        logger.debug("rest removeTagFromReference()");
-
-        try {
-            referenceFacade.removeTag(id, tagDTO);
-            return referenceFacade.getReferenceById(id);
-        } catch (Exception ex) {
-            throw new ResourceNotFoundException(ex);
-        }
-    }
-
 }

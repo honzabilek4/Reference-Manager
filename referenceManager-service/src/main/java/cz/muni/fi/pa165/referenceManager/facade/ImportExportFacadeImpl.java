@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.referenceManager.facade;
 
-import cz.muni.fi.pa165.referenceManager.dto.TagCreateDTO;
 import cz.muni.fi.pa165.referenceManager.dto.TagDTO;
 import cz.muni.fi.pa165.referenceManager.entity.Tag;
 import cz.muni.fi.pa165.referenceManager.entity.User;
@@ -53,7 +52,7 @@ public class ImportExportFacadeImpl implements ImportExportFacade {
         Tag tag =  tagService.findById(tagDTO.getId());
         Long tagId = null;
         if (tag == null) {
-            tagId = tagFacade.createTag(getTagCreateDTO(tagDTO));
+            tagId = tagFacade.createTag(tagDTO);
             if (tagId == null) {
                 String errorMsg = "Tag " + tagDTO + " could not be created";
                 log.error(errorMsg);
@@ -89,12 +88,5 @@ public class ImportExportFacadeImpl implements ImportExportFacade {
             throw new ExportException(errorMsg);
         }
         return tag;
-    }
-
-    private TagCreateDTO getTagCreateDTO(TagDTO tagDTO) {
-        TagCreateDTO tagCreateDTO = new TagCreateDTO();
-        tagCreateDTO.setName(tagDTO.getName());
-        tagCreateDTO.setReferenceDTOSet(tagDTO.getReferences());
-        return tagCreateDTO;
     }
 }

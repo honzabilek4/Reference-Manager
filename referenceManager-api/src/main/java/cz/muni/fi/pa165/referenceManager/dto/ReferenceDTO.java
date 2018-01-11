@@ -17,6 +17,7 @@ public class ReferenceDTO {
     private String venue;
     private Integer pagesStart;
     private Integer pagesEnd;
+    private List<Long> tagIds;
 
     public Long getId() {
         return id;
@@ -72,6 +73,14 @@ public class ReferenceDTO {
 
     public void setNotes(Set<NoteDTO> notes) {
         this.notes = notes;
+    }
+
+    public List<Long> getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(List<Long> tagIds) {
+        this.tagIds = tagIds;
     }
 
     @Override

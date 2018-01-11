@@ -29,9 +29,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void updateTagName(Long tagId, String newName) {
-        Tag tag = tagDao.findById(tagId);
-        tag.setName(newName);
+    public void updateTag(Tag tag) {
         tagDao.update(tag);
     }
 
