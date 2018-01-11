@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 import java.util.Collection;
 
+/**
+ * Documentation for REST is available at:
+ * https://github.com/honzabilek4/Reference-Manager/wiki/REST-API
+ *
+ */
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_TAGS)
 public class TagController {
@@ -28,7 +33,6 @@ public class TagController {
 
     /**
      * Returns all tags
-     * curl -i -X GET http://localhost:8080/pa165/rest/tags
      *
      * @return list of tags
      */
@@ -42,7 +46,6 @@ public class TagController {
 
     /**
      * Return one tag with given id
-     * curl -i -X GET http://localhost:8080/pa165/rest/tags/{id}
      *
      * @param id identifier for tag
      * @return tag with given id
@@ -64,7 +67,6 @@ public class TagController {
 
     /**
      * Delete one tag with given id
-     * curl -i -X DELETE http://localhost:8080/pa165/rest/tags/{id}
      *
      * @param id identifier for tag
      * @throws ResourceNotFoundException
@@ -89,8 +91,6 @@ public class TagController {
 
     /**
      * Create a new tag by POST method
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"NAME"}'
-     * http://localhost:8080/pa165/rest/tags/create
      *
      * @param tag TagCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
@@ -111,8 +111,6 @@ public class TagController {
 
     /**
      * Update the name for one tag by PUT method
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"NAME"}'
-     * http://localhost:8080/pa165/rest/tags/{id}
      *
      * @param id identifier for tag
      */

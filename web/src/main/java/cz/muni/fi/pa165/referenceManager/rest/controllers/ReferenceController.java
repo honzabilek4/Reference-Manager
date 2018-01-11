@@ -17,7 +17,9 @@ import java.security.Principal;
 import java.util.Collection;
 
 /**
- * @author Andrej Staruch
+ * Documentation for REST is available at:
+ * https://github.com/honzabilek4/Reference-Manager/wiki/REST-API
+ *
  */
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_REFERENCES)
@@ -30,7 +32,6 @@ public class ReferenceController {
 
     /**
      * Returns all references
-     * curl -i -X GET http://localhost:8080/pa165/rest/references
      * @return list of references
      */
     @RequestMapping(
@@ -44,7 +45,6 @@ public class ReferenceController {
 
     /**
      * Return one reference with given id
-     * curl -i -X GET http://localhost:8080/pa165/rest/references/{id}
      * @param id identifier for reference
      * @return reference with given id
      */
@@ -62,8 +62,7 @@ public class ReferenceController {
     }
 
     /**
-     * Return one reference with given id
-     * curl -i -X GET http://localhost:8080/pa165/rest/references/{id}
+     * Return stored notes for the references
      * @param id identifier for reference
      * @return reference with given id
      */
@@ -83,7 +82,6 @@ public class ReferenceController {
 
     /**
      * Delete one reference with given id
-     * curl -i -X DELETE http://localhost:8080/pa165/rest/references/{id}
      *
      * @param id identifier for reference
      * @throws ResourceNotFoundException
@@ -107,9 +105,6 @@ public class ReferenceController {
 
     /**
      * Create a new reference by POST method
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"title":"TEXT", "authors":
-     * ["author1", "author2", "author3"], "venue": "VENUE", "pagesStart": NUM, "pagesEnd": NUM}'
-     * http://localhost:8080/pa165/rest/references/create
      *
      * @param reference ReferenceCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
@@ -130,10 +125,6 @@ public class ReferenceController {
 
     /**
      * Update the reference by PUT method
-     *
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"title":"TEXT", "authors":
-     * ["author1", "author2", "author3"], "venue": "VENUE", "pagesStart": NUM, "pagesEnd": NUM}'
-     * http://localhost:8080/pa165/rest/references/{id}
      *
      * @param id identifier for reference
      */
