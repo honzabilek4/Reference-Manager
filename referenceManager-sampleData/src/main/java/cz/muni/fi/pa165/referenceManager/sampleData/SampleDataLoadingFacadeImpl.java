@@ -42,9 +42,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     @SuppressWarnings("unused")
     public void loadData() {
 
-        User adam = user("Adam", "adam@user.cz", "adamPassword");
-        User kaja = user("Kaja", "kaja@user.cz", "kajaPassword");
-        User anna = user("Anna", "anna@user.cz", "annaPassword");
+        User adam = user("Adam", "adam@user.cz", "adamPassword", true);
+        User kaja = user("Kaja", "kaja@user.cz", "kajaPassword", false);
+        User anna = user("Anna", "anna@user.cz", "annaPassword", false);
         log.info("Users loaded.");
 
         Tag school = tag("School", adam, anna);
@@ -107,10 +107,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return tag;
     }
 
-    private User user(String name, String email, String password) {
+    private User user(String name, String email, String password, boolean admin) {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
+        user.setAdmin(admin);
         userService.registerUser(user, password);
         return user;
     }

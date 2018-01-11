@@ -6,13 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import cz.muni.fi.pa165.referenceManager.config.ServiceConfiguration;
 import cz.muni.fi.pa165.referenceManager.sampleData.ReferenceManagerSampleDataConfiguration;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.SimpleDateFormat;
@@ -22,14 +25,15 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @Import({ServiceConfiguration.class, ReferenceManagerSampleDataConfiguration.class})
-@ComponentScan(basePackages = {"cz.muni.fi.pa165.referenceManager.rest.controllers"})
+@ComponentScan(basePackages = {"cz.muni.fi.pa165.referenceManager.rest.controllers",
+    "cz.muni.fi.pa165.referenceManager.rest.auth"})
 public class RootWebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-        .allowedOrigins("http://localhost:3000")
-        .allowedMethods("GET", "PUT", "DELETE");
+            .allowedOrigins("http://localhost:3000")
+            .allowedMethods("GET", "PUT", "DELETE");
     }
 
     @Override

@@ -5,7 +5,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -16,7 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "Users_table")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
@@ -24,7 +22,7 @@ public class User {
 
     @Column(unique = true)
     @NotNull
-    @Pattern(regexp = ".+@.+\\....?")
+    @Pattern(regexp=".+@.+\\....?")
     private String email;
 
     @NotNull
@@ -39,8 +37,9 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
     private Set<Reference> references = new HashSet<>();
 
-    public User() {
-    }
+    private Boolean isAdmin = false;
+
+    public User() {}
 
     public User(Long id) {
         this.id = id;
@@ -74,19 +73,19 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public void addReference(Reference reference) {
+    public void addReference(Reference reference){
         references.add(reference);
     }
 
-    public void removeReference(Reference reference) {
+    public void removeReference(Reference reference){
         references.remove(reference);
     }
 
-    public void addTag(Tag tag) {
+    public void addTag(Tag tag){
         tags.add(tag);
     }
 
-    public void removeTag(Tag tag) {
+    public void removeTag(Tag tag){
         tags.remove(tag);
     }
 
@@ -104,6 +103,18 @@ public class User {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     @Override

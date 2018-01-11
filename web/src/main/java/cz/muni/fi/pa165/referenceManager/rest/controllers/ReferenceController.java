@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.security.Principal;
 import java.util.Collection;
 
 /**
@@ -35,7 +36,8 @@ public class ReferenceController {
     @RequestMapping(
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Collection<ReferenceDTO> getReferences() {
+    public final Collection<ReferenceDTO> getReferences(Principal principal) {
+
         logger.debug("rest getReferences()");
         return referenceFacade.getAllReferences();
     }
