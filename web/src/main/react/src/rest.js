@@ -28,11 +28,21 @@ const rest = reduxApi({
                 dispatch(actions.tags.force());
             }
         ]
+    },
+    users: {
+        url: `users/`,
+        transformer: transformers.array
     }
 });
 
 rest.use('fetch', adapterFetch(fetch)); // it's necessary to point using REST backend
 rest.use('rootUrl', 'http://localhost:8080/pa165/rest/');
+rest.use('options', (url, params, getState) => {
+    const username = localStorage.getItem("username");
+    const password = localStorage.getItem("password");
+    const headers = { headers: {Authorization: "Basic " + btoa(username + ":" + password)}};
+   return headers;
+});
 rest.use('responseHandler',
     (err, data) => {
         if (err) {

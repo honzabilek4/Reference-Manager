@@ -33,7 +33,7 @@ public class RootWebConfig extends WebMvcConfigurerAdapter {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedOrigins("*")
-            .allowedMethods("GET", "PUT", "DELETE", "POST");
+            .allowedMethods("GET", "PUT", "DELETE", "POST", "OPTIONS");
     }
 
     @Override

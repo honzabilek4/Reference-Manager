@@ -11,7 +11,7 @@ const TagCard = ({tag, references, onEdit, onDelete, onSubmit}) => (
             </Card.Header>
             <Card.Description>
                 <Label>
-                    This tag is associated with {tag.references.length} references
+                    This tag is associated with {tag.referencesIds.length} references
                 </Label>
             </Card.Description>
             <Card.Content style={styles.cardExtra} extra>

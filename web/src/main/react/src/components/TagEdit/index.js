@@ -15,8 +15,8 @@ const TagInsertContainer = ({children, headerText, submitButtonText, onSubmit, r
 
 const TagEditContainer = ({children, references, tag, headerText, submitButtonText, onSubmit}) => {
     const referencesToFields = {};
-    tag.references.forEach((value) => {
-        referencesToFields[`reference-${value.id}`] = true;
+    tag.referencesIds.forEach((value) => {
+        referencesToFields[`reference-${value}`] = true;
     });
     return (<TagEditForm
         references={references}
