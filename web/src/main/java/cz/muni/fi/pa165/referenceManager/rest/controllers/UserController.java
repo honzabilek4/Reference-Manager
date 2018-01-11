@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.util.Collection;
 
+/**
+ * Documentation for REST is available at:
+ * https://github.com/honzabilek4/Reference-Manager/wiki/REST-API
+ *
+ */
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_USERS)
 public class UserController {

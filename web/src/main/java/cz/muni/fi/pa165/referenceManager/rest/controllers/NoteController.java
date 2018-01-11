@@ -16,6 +16,9 @@ import java.util.Collection;
 
 /**
  * @author Andrej Staruch
+ * Documentation for REST is available at:
+ * https://github.com/honzabilek4/Reference-Manager/wiki/REST-API
+ *
  */
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_NOTES)
@@ -28,7 +31,6 @@ public class NoteController {
 
     /**
      * Returns all notes
-     * curl -i -X GET http://localhost:8080/pa165/rest/notes
      * @return list of notes
      */
     @RequestMapping(
@@ -41,7 +43,6 @@ public class NoteController {
 
     /**
      * Return one note with given id
-     * curl -i -X GET http://localhost:8080/pa165/rest/notes/{id}
      * @param id identifier for note
      * @return note with given id
      */
@@ -61,7 +62,6 @@ public class NoteController {
 
     /**
      * Delete one note with given id
-     * curl -i -X DELETE http://localhost:8080/pa165/rest/notes/{id}
      *
      * @param id identifier for note
      * @throws ResourceNotFoundException
@@ -85,8 +85,6 @@ public class NoteController {
 
     /**
      * Create a new note by POST method
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"text":"TEXT"}'
-     * http://localhost:8080/pa165/rest/notes/create
      *
      * @param note NoteCreateDTO with required fields for creation
      * @throws ResourceAlreadyExistingException
@@ -108,8 +106,6 @@ public class NoteController {
 
     /**
      * Update the text for one note by PUT method
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"text":"TEXT"}'
-     * http://localhost:8080/pa165/rest/notes/{id}
      *
      * @param id identifier for note
      */
