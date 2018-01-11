@@ -21,11 +21,9 @@ public interface TagService {
     void create(Tag tag);
 
     /**
-     * Updates existing tag's name with a new name
-     * @param tagId id of tag
-     * @param newName new name of tag
+     * Updates existing tag
      */
-    void updateTagName(Long tagId, String newName);
+    void updateTag(Tag tag);
 
     /**
      * Remove existing tag from database

@@ -13,7 +13,7 @@ public class TagDTO {
 
     private String name;
 
-    private Set<ReferenceDTO> references = new HashSet<>();
+    private Set<Long> referencesIds = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -31,20 +31,12 @@ public class TagDTO {
         this.name = name;
     }
 
-    public Set<ReferenceDTO> getReferences() {
-        return references;
+    public Set<Long> getReferencesIds() {
+        return referencesIds;
     }
 
-    public void setReferences(Set<ReferenceDTO> references) {
-        this.references = references;
-    }
-
-    public void addReference(ReferenceDTO reference) {
-        references.add(reference);
-    }
-
-    public void removeReference(ReferenceDTO reference) {
-        references.remove(reference);
+    public void setReferencesIds(Set<Long> referencesIds) {
+        this.referencesIds = referencesIds;
     }
 
     @Override

@@ -22,7 +22,12 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany
+    @JoinTable(
+        name = "Reference_Tag",
+        joinColumns = @JoinColumn(name = "TAG_ID", nullable = false),
+        inverseJoinColumns = @JoinColumn(name = "REFERENCE_ID", nullable = false)
+    )
     private Set<Reference> references = new HashSet<>();
 
     @ManyToMany

@@ -32,6 +32,17 @@ public class ReferenceDaoImpl implements ReferenceDao {
     @Override
     public void remove(Reference r) {
         Reference reference = em.find(Reference.class,r.getId());
+        if (reference == null) {
+            throw new IllegalArgumentException("No reference with id " + r.getId() + " could be found");
+        }
+        for (Tag tag : reference.getTags()) {
+            tag.removeReference(reference);
+        }
+        List<User> users = em.createQuery("select u from User u where :reference member of u.references", User.class)
+            .setParameter("reference", reference).getResultList();
+        for (User user : users) {
+            user.removeReference(reference);
+        }
         em.remove(reference);
     }
 

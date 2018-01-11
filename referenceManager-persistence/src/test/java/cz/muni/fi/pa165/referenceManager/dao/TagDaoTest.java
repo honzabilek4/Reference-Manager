@@ -96,6 +96,8 @@ public class TagDaoTest {
     public void testUpdateTag() {
         r1.addTag(t2);
         r2.addTag(t2);
+        t2.addReference(r1);
+        t2.addReference(r2);
 
         tagDao.update(t2);
 
