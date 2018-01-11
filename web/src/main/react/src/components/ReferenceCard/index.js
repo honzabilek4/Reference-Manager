@@ -5,25 +5,7 @@ import ReferenceCardListItem from './referenceCardListItem';
 import ReferenceEdit from '../ReferenceEdit';
 import referencePropType from '../../utils/referencePropTypes';
 import ReferenceCardListTagItem from './referenceCardListTagItem';
-
-const styles = {
-    checkbox: {
-        position: 'absolute',
-        top: '1em',
-        right: '1em',
-    },
-    cardHeader: {
-        paddingRight: '2em',
-    },
-    cardExtra: {
-        marginTop: '1em',
-    },
-    cardContent: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-};
+import {cardStyles as styles} from '../../utils/styles';
 
 const ReferenceCard = ({reference, tags, allTags, onEdit, onDelete, onSubmit}) => (
     <Card>
