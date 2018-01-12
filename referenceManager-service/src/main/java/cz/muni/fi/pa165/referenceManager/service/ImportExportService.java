@@ -45,4 +45,7 @@ public interface ImportExportService {
     String getReferencesInCSV(Tag tag) throws ExportException;
 
     String getReferencesInBibtex(Tag tag) throws ExportException;
+
+    void importReferencesFromBibtex( User user, String text, Tag tag) throws ImportException;
+
 }

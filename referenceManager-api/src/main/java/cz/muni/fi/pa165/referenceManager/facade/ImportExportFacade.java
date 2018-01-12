@@ -15,4 +15,5 @@ public interface ImportExportFacade {
     File exportReferencesToCSV(Long tagId) throws ExportException;
     String getReferencesInCSV(Long tagId) throws ExportException;
     String getReferencesInBibtex(Long tagId) throws ExportException;
+    void importReferencesFromBibtex(String userName, String file, TagDTO tagDTO) throws ImportException;
 }

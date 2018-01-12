@@ -284,6 +284,19 @@ public class ImportExportServiceImpl implements ImportExportService {
         }
     }
 
+    @Override
+    public void importReferencesFromBibtex(User user, String text, Tag tag) throws ImportException{
+        try{
+            File file = new File(String.valueOf(System.currentTimeMillis()) + "import.bib");
+            FileUtils.writeStringToFile(file,text,"UTF-8");
+            importReferences(user,file,tag);
+        }
+        catch (Exception e){
+            throw new ImportException("Cannot import file");
+        }
+    }
+
+
     private StringValue createStringValue(String value) {
         return new StringValue(value, VALUE_STYLE);
     }
