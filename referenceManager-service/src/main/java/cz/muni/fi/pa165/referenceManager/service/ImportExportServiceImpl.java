@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.exceptions.ExportException;
 import cz.muni.fi.pa165.referenceManager.exceptions.ImportException;
 import cz.muni.fi.pa165.referenceManager.utils.CSVWriter;
+import org.apache.commons.io.FileUtils;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
 import org.jbibtex.BibTeXFormatter;
@@ -33,6 +34,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static org.apache.commons.io.FileUtils.readFileToString;
 
 /**
  * @author David Šarman
@@ -204,7 +207,7 @@ public class ImportExportServiceImpl implements ImportExportService {
         Set<Reference> references = tag.getReferences();
 
         BibTeXDatabase database = createDatabase(references);
-        File exportFile = createExportFile(EXPORT_FILENAME_START + tag.getId() + ".bib");
+        File exportFile = createExportFile(EXPORT_FILENAME_START + tag.getId() + "_" + String.valueOf(System.currentTimeMillis()) + ".bib");
         BibTeXFormatter formatter = new BibTeXFormatter();
 
         try (Writer fileWriter = new FileWriter(exportFile)) {
@@ -223,7 +226,7 @@ public class ImportExportServiceImpl implements ImportExportService {
         Set<Reference> references = tag.getReferences();
 
         List<List<String>> csvData = getCSVData(references);
-        File exportFile = createExportFile(EXPORT_FILENAME_START + tag.getId() + ".csv");
+        File exportFile = createExportFile(EXPORT_FILENAME_START + tag.getId() + "_" + String.valueOf(System.currentTimeMillis()) + ".csv");
 
         return CSVWriter.writeFile(csvData, exportFile);
     }
@@ -262,6 +265,37 @@ public class ImportExportServiceImpl implements ImportExportService {
         }
         return result;
     }
+
+    @Override
+    public String getReferencesInCSV(Tag tag) throws ExportException {
+        try {
+            return FileUtils.readFileToString(exportReferencesToCsv(tag), "UTF-8");
+        } catch (Exception e) {
+            throw new ExportException("Cannot export file.");
+        }
+    }
+
+    @Override
+    public String getReferencesInBibtex(Tag tag) throws ExportException {
+        try {
+            return FileUtils.readFileToString(exportReferencesToBibtex(tag), "UTF-8");
+        } catch (Exception e) {
+            throw new ExportException("Cannot export file.");
+        }
+    }
+
+    @Override
+    public void importReferencesFromBibtex(User user, String text, Tag tag) throws ImportException{
+        try{
+            File file = new File(String.valueOf(System.currentTimeMillis()) + "import.bib");
+            FileUtils.writeStringToFile(file,text,"UTF-8");
+            importReferences(user,file,tag);
+        }
+        catch (Exception e){
+            throw new ImportException("Cannot import file");
+        }
+    }
+
 
     private StringValue createStringValue(String value) {
         return new StringValue(value, VALUE_STYLE);

@@ -34,6 +34,8 @@ public class MainController {
         resourcesMap.put("tags_uri", ApiUris.ROOT_URI_TAGS);
         resourcesMap.put("references_uri", ApiUris.ROOT_URI_REFERENCES);
         resourcesMap.put("notes_uri", ApiUris.ROOT_URI_NOTES);
+        resourcesMap.put("export_uri", ApiUris.ROOT_URI_EXPORT);
+        resourcesMap.put("import_uri", ApiUris.ROOT_URI_IMPORT);
 
         return Collections.unmodifiableMap(resourcesMap);
 

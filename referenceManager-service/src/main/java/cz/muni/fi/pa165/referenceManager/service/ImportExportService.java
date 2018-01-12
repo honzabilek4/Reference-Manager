@@ -41,4 +41,11 @@ public interface ImportExportService {
      * @throws ExportException In case of unsuccessful export
      */
     File exportReferencesToCsv(Tag tag) throws ExportException;
+
+    String getReferencesInCSV(Tag tag) throws ExportException;
+
+    String getReferencesInBibtex(Tag tag) throws ExportException;
+
+    void importReferencesFromBibtex( User user, String text, Tag tag) throws ImportException;
+
 }

@@ -161,12 +161,4 @@ public class ImportExportServiceImplTest {
         return tag;
     }
 
-    @Test(expected = ExportException.class)
-    public void exportMultipleFail() throws  Exception {
-        Tag tag = getTestTag();
-
-        service.exportReferencesToBibtex(tag);
-        service.exportReferencesToBibtex(tag);
-    }
-
 }

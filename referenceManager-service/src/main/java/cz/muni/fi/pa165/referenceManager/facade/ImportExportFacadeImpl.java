@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.referenceManager.entity.User;
 import cz.muni.fi.pa165.referenceManager.exceptions.ExportException;
 import cz.muni.fi.pa165.referenceManager.exceptions.ImportException;
 import cz.muni.fi.pa165.referenceManager.service.ImportExportService;
+import cz.muni.fi.pa165.referenceManager.service.MappingService;
 import cz.muni.fi.pa165.referenceManager.service.TagService;
 import cz.muni.fi.pa165.referenceManager.service.UserService;
 import org.slf4j.Logger;
@@ -20,11 +21,15 @@ import java.io.File;
  * @author David Šarman
  */
 @Service
+@Transactional
 public class ImportExportFacadeImpl implements ImportExportFacade {
     private final static Logger log = LoggerFactory.getLogger(ImportExportFacade.class);
 
     @Inject
     private ImportExportService importExportService;
+
+    @Inject
+    private MappingService mappingService;
 
     @Inject
     private UserService userService;
@@ -36,7 +41,6 @@ public class ImportExportFacadeImpl implements ImportExportFacade {
     private TagFacade tagFacade;
 
     @Override
-    @Transactional
     public void importReferences(Long userId, File file, TagDTO tagDTO) throws ImportException {
         if (userId == null || file == null || tagDTO == null || tagDTO.getId() == null) {
             throw new IllegalArgumentException("None of the arguments can be null");
@@ -81,6 +85,23 @@ public class ImportExportFacadeImpl implements ImportExportFacade {
         return importExportService.exportReferencesToCsv(tag);
     }
 
+    @Override
+    public String getReferencesInCSV(Long tagId) throws ExportException {
+        Tag tag = findTag(tagId);
+        return importExportService.getReferencesInCSV(tag);
+    }
+
+    @Override
+    public String getReferencesInBibtex(Long tagId) throws ExportException {
+        Tag tag = findTag(tagId);
+        return importExportService.getReferencesInBibtex(tag);
+    }
+
+    public void importReferencesFromBibtex(String userName, String file, TagDTO tagDTO) throws ImportException {
+        User user = userService.findUserByEmail(userName);
+        Tag tag =  mappingService.mapTo(tagDTO,Tag.class);
+        importExportService.importReferencesFromBibtex(user,file,tag);
+    }
     private Tag findTag(Long tagId) throws ExportException {
         Tag tag = tagService.findById(tagId);
         if (tag == null) {
