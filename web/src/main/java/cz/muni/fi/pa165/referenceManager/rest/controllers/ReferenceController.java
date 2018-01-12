@@ -1,8 +1,6 @@
 package cz.muni.fi.pa165.referenceManager.rest.controllers;
 
 import cz.muni.fi.pa165.referenceManager.dto.*;
-import cz.muni.fi.pa165.referenceManager.entity.Reference;
-import cz.muni.fi.pa165.referenceManager.facade.NoteFacade;
 import cz.muni.fi.pa165.referenceManager.facade.ReferenceFacade;
 import cz.muni.fi.pa165.referenceManager.rest.ApiUris;
 import cz.muni.fi.pa165.referenceManager.rest.exceptions.ResourceAlreadyExistingException;

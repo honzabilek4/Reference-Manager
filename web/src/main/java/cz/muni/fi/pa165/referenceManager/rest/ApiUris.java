@@ -13,5 +13,6 @@ public abstract class ApiUris {
     public static final String ROOT_URI_TAGS        = ROOT_URI_MAIN + "/tags";
     public static final String ROOT_URI_REFERENCES  = ROOT_URI_MAIN + "/references";
     public static final String ROOT_URI_NOTES       = ROOT_URI_MAIN + "/notes";
-    public static final String ROOT_URI_IMPORT_EXPORT = ROOT_URI_MAIN + "/importexport";
+    public static final String ROOT_URI_EXPORT      = ROOT_URI_MAIN + "/export";
+    public static final String ROOT_URI_IMPORT      = ROOT_URI_MAIN + "/import";
 }

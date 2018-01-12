@@ -20,6 +20,7 @@ import java.io.File;
  * @author David Šarman
  */
 @Service
+@Transactional
 public class ImportExportFacadeImpl implements ImportExportFacade {
     private final static Logger log = LoggerFactory.getLogger(ImportExportFacade.class);
 
@@ -36,7 +37,6 @@ public class ImportExportFacadeImpl implements ImportExportFacade {
     private TagFacade tagFacade;
 
     @Override
-    @Transactional
     public void importReferences(Long userId, File file, TagDTO tagDTO) throws ImportException {
         if (userId == null || file == null || tagDTO == null || tagDTO.getId() == null) {
             throw new IllegalArgumentException("None of the arguments can be null");
@@ -79,6 +79,18 @@ public class ImportExportFacadeImpl implements ImportExportFacade {
     public File exportReferencesToCSV(Long tagId) throws ExportException {
         Tag tag = findTag(tagId);
         return importExportService.exportReferencesToCsv(tag);
+    }
+
+    @Override
+    public String getReferencesInCSV(Long tagId) throws ExportException {
+        Tag tag = findTag(tagId);
+        return importExportService.getReferencesInCSV(tag);
+    }
+
+    @Override
+    public String getReferencesInBibtex(Long tagId) throws ExportException {
+        Tag tag = findTag(tagId);
+        return importExportService.getReferencesInBibtex(tag);
     }
 
     private Tag findTag(Long tagId) throws ExportException {
